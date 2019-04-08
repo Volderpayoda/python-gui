@@ -16,3 +16,7 @@ class BinaryTree:
         if self.right is not None:
             text = text + '\n' + sep + self.right.show(sep= sep.rjust(len(sep) + 2))
         return text
+
+if __name__ == "__main__":
+    tree = BinaryTree(1, BinaryTree(2, BinaryTree(3)), BinaryTree(4, BinaryTree(5), BinaryTree(6)))
+    print(tree)
