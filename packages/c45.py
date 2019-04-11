@@ -33,9 +33,11 @@ def partitionD(data, valueAg, g):
     # To Do
     return False
 
-def frequentClass(data):
-    # To Do
-    return False
+def frequentClass(data, classes, classcolumn):
+    freq = data[classcolumn].value_counts()
+    freq = freq.index.tolist()
+    freqclass = freq[0]
+    return freqclass
 
 def sameClassC(data, classcolumn):
     if data[classcolumn].nunique() == 1:
@@ -44,7 +46,7 @@ def sameClassC(data, classcolumn):
     
 
 def decisiontree(data, attributes, classes, classcolumn, tree, threshold):
-    cj = frequentClass(data)
+    cj = frequentClass(data, classes, classcolumn)
     if sameClassC(data, classcolumn):
         leafNode(cj)
     elif attributes.length() == 0:
