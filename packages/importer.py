@@ -10,6 +10,7 @@ def import_csv(path, sep = ','):
 
     # Obtener el conjunto de clases
     length = attributes.size - 1
+    classcolumn = attributes[length]
     classes = data[attributes[length]].unique()
 
     # Eliminar la columna de clase de la lista de atributos
@@ -18,6 +19,7 @@ def import_csv(path, sep = ','):
     dictionary = {
         "data": data,
         "attributes": attributes,
+        "classcolumn": classcolumn,
         "classes": classes
     }
 
