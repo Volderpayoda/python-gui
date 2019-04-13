@@ -1,21 +1,42 @@
 import numpy as np
 import pandas as pd
+import math
 
-def impurityEval1(data):
-    # To Do
-    return False
+def impurityEval1(data, classcolumn):
+    # Calcula la entropía del conjunto data
+    p0 = 0
+    n = data.shape[0]
+    freqs = data[classcolumn].value_counts()
+    for f in freqs:
+        p0 += - (f/n) * math.log((f/n), 2)
+    return p0
 
-def impurityCalc(data,attributes): # calcular-impurezas
-    # To Do
+def impurityCalc(data, attributes, classcolumn): # calcular-impurezas
+    for attribute in attributes:
+        dataOrd = data.sort_values(by = [attribute, classcolumn])
+        resg = dataOrd.iloc[0][classcolumn]
+        pos = 0
+        for value in dataOrd[classcolumn]:
+            if value != resg:
+                threshold = dataOrd.iloc[pos - 1][attribute]
+                impurityEval2(dataOrd, attribute, threshold, classcolumn)
+                resg = value
+            pos += 1
     return False
 
 def selectAg(p0,p,attributes):
     # To Do
     return False
 
-def impurityEval2():
-    # To Do
-    return False
+def impurityEval2(dataOrd, attribute, threshold, classcolumn):
+    n = dataOrd.shape[0]
+    # Generar los subconjuntos "<=" y ">"
+    data1 = dataOrd.loc[dataOrd[attribute] <= threshold]
+    n1 = data1.shape[0]
+    data2 = dataOrd.loc[dataOrd[attribute] > threshold]
+    n2 = data2.shape[0]
+    pi = n1/n * impurityEval1(data1, classcolumn) + n2/n * impurityEval1(data2, classcolumn)    
+    return pi
 
 def leafNode(cj):
     # To Do
@@ -52,12 +73,12 @@ def decisiontree(data, attributes, classes, classcolumn, tree, threshold):
     elif attributes.length() == 0:
         leafNode(cj)
     else:
-        p0 = impurityEval1(data)
+        p0 = impurityEval1(data, classcolumn)
         p = []
         p = impurityCalc(attributes, data)
         g = selectAg(p0, p, attributes)
         if (p0 - p[g]) < threshold:
-            cj = frequentClass(data)
+            cj = frequentClass(data, classes, classcolumn)
             leafNode(cj)
         else:
             decisionNode(tree, attributes[g])
