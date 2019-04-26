@@ -4,6 +4,7 @@ from PyQt5 import QtCore, QtGui, QtWidgets
 from PyQt5.QtCore import QObject, pyqtSlot
 from views.mainwindow import Ui_MainWindow
 from models.model import Model
+from packages.importer import *
 import sys
 
 class MainWindowUIClass(Ui_MainWindow):
@@ -62,6 +63,10 @@ class MainWindowUIClass(Ui_MainWindow):
     def classifySlot(self):
         # TODO: En este punto se llamaría al algoritmo de clasificación
         self.debugPrint("Comienza el proceso de clasificación")
+        problem = import_csv(self.trainingModel.getFileName())
+        for key in problem:
+            self.debugPrint("{0}: ".format(key))
+            self.debugPrint(str(problem[key]))
     
     # Slots del programa para la prueba
     def testBrowseSlot(self):
