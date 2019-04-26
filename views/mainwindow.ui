@@ -10,7 +10,7 @@
     <x>0</x>
     <y>0</y>
     <width>619</width>
-    <height>250</height>
+    <height>449</height>
    </rect>
   </property>
   <property name="sizePolicy">
@@ -23,29 +23,23 @@
    <string>MainWindow</string>
   </property>
   <widget class="QWidget" name="centralwidget">
-   <widget class="QPushButton" name="classifyButton">
-    <property name="enabled">
-     <bool>false</bool>
-    </property>
+   <widget class="QTextBrowser" name="debugTextBrowser">
     <property name="geometry">
      <rect>
-      <x>530</x>
-      <y>50</y>
-      <width>75</width>
-      <height>23</height>
+      <x>10</x>
+      <y>280</y>
+      <width>601</width>
+      <height>161</height>
      </rect>
     </property>
-    <property name="text">
-     <string>Clasificar</string>
-    </property>
    </widget>
-   <widget class="QFrame" name="frame">
+   <widget class="QFrame" name="trainingDataFrame">
     <property name="geometry">
      <rect>
-      <x>9</x>
-      <y>9</y>
+      <x>10</x>
+      <y>10</y>
       <width>601</width>
-      <height>45</height>
+      <height>71</height>
      </rect>
     </property>
     <property name="frameShape">
@@ -54,51 +48,183 @@
     <property name="frameShadow">
      <enum>QFrame::Raised</enum>
     </property>
-    <widget class="QWidget" name="layoutWidget">
+    <widget class="QWidget" name="">
      <property name="geometry">
       <rect>
-       <x>10</x>
-       <y>10</y>
-       <width>581</width>
-       <height>25</height>
+       <x>0</x>
+       <y>0</y>
+       <width>601</width>
+       <height>71</height>
       </rect>
      </property>
-     <layout class="QHBoxLayout" name="horizontalLayout">
+     <layout class="QVBoxLayout" name="trainingData">
       <item>
-       <widget class="QLabel" name="label_2">
-        <property name="text">
-         <string>Archivo:</string>
-        </property>
-       </widget>
+       <layout class="QVBoxLayout" name="title">
+        <item>
+         <widget class="QLabel" name="label">
+          <property name="font">
+           <font>
+            <pointsize>14</pointsize>
+           </font>
+          </property>
+          <property name="text">
+           <string>Datos de entrenamiento</string>
+          </property>
+         </widget>
+        </item>
+        <item>
+         <widget class="Line" name="line">
+          <property name="orientation">
+           <enum>Qt::Horizontal</enum>
+          </property>
+         </widget>
+        </item>
+       </layout>
       </item>
       <item>
-       <widget class="QLineEdit" name="lineEdit"/>
-      </item>
-      <item>
-       <widget class="QPushButton" name="browseButton">
-        <property name="sizePolicy">
-         <sizepolicy hsizetype="Fixed" vsizetype="Fixed">
-          <horstretch>0</horstretch>
-          <verstretch>0</verstretch>
-         </sizepolicy>
-        </property>
-        <property name="text">
-         <string>Examinar</string>
-        </property>
-       </widget>
+       <layout class="QHBoxLayout" name="trainingFileBrowser">
+        <item>
+         <widget class="QLabel" name="label_2">
+          <property name="text">
+           <string>Archivo:</string>
+          </property>
+         </widget>
+        </item>
+        <item>
+         <widget class="QLineEdit" name="trainingLineEdit">
+          <property name="enabled">
+           <bool>false</bool>
+          </property>
+          <property name="acceptDrops">
+           <bool>false</bool>
+          </property>
+         </widget>
+        </item>
+        <item>
+         <widget class="QPushButton" name="browseButton">
+          <property name="sizePolicy">
+           <sizepolicy hsizetype="Fixed" vsizetype="Fixed">
+            <horstretch>0</horstretch>
+            <verstretch>0</verstretch>
+           </sizepolicy>
+          </property>
+          <property name="text">
+           <string>Examinar</string>
+          </property>
+         </widget>
+        </item>
+        <item>
+         <widget class="QPushButton" name="classifyButton">
+          <property name="enabled">
+           <bool>false</bool>
+          </property>
+          <property name="text">
+           <string>Clasificar</string>
+          </property>
+         </widget>
+        </item>
+       </layout>
       </item>
      </layout>
     </widget>
    </widget>
-   <widget class="QTextBrowser" name="debugTextBrowser">
+   <widget class="QFrame" name="testDataFrame">
+    <property name="enabled">
+     <bool>false</bool>
+    </property>
     <property name="geometry">
      <rect>
       <x>10</x>
-      <y>80</y>
+      <y>90</y>
       <width>601</width>
-      <height>162</height>
+      <height>71</height>
      </rect>
     </property>
+    <property name="frameShape">
+     <enum>QFrame::StyledPanel</enum>
+    </property>
+    <property name="frameShadow">
+     <enum>QFrame::Raised</enum>
+    </property>
+    <widget class="QWidget" name="layoutWidget_2">
+     <property name="geometry">
+      <rect>
+       <x>0</x>
+       <y>0</y>
+       <width>601</width>
+       <height>71</height>
+      </rect>
+     </property>
+     <layout class="QVBoxLayout" name="testData">
+      <item>
+       <layout class="QVBoxLayout" name="title_2">
+        <item>
+         <widget class="QLabel" name="label_3">
+          <property name="font">
+           <font>
+            <pointsize>14</pointsize>
+           </font>
+          </property>
+          <property name="text">
+           <string>Datos de entrenamiento</string>
+          </property>
+         </widget>
+        </item>
+        <item>
+         <widget class="Line" name="line_2">
+          <property name="orientation">
+           <enum>Qt::Horizontal</enum>
+          </property>
+         </widget>
+        </item>
+       </layout>
+      </item>
+      <item>
+       <layout class="QHBoxLayout" name="testFileBrowser">
+        <item>
+         <widget class="QLabel" name="label_4">
+          <property name="text">
+           <string>Archivo:</string>
+          </property>
+         </widget>
+        </item>
+        <item>
+         <widget class="QLineEdit" name="testLineEdit">
+          <property name="enabled">
+           <bool>false</bool>
+          </property>
+          <property name="acceptDrops">
+           <bool>false</bool>
+          </property>
+         </widget>
+        </item>
+        <item>
+         <widget class="QPushButton" name="testBrowseButton">
+          <property name="sizePolicy">
+           <sizepolicy hsizetype="Fixed" vsizetype="Fixed">
+            <horstretch>0</horstretch>
+            <verstretch>0</verstretch>
+           </sizepolicy>
+          </property>
+          <property name="text">
+           <string>Examinar</string>
+          </property>
+         </widget>
+        </item>
+        <item>
+         <widget class="QPushButton" name="testTestButton">
+          <property name="enabled">
+           <bool>false</bool>
+          </property>
+          <property name="text">
+           <string>Probar</string>
+          </property>
+         </widget>
+        </item>
+       </layout>
+      </item>
+     </layout>
+    </widget>
    </widget>
   </widget>
  </widget>
