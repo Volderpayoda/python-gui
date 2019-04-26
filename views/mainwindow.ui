@@ -48,7 +48,7 @@
     <property name="frameShadow">
      <enum>QFrame::Raised</enum>
     </property>
-    <widget class="QWidget" name="">
+    <widget class="QWidget" name="layoutWidget">
      <property name="geometry">
       <rect>
        <x>0</x>
@@ -166,7 +166,7 @@
            </font>
           </property>
           <property name="text">
-           <string>Datos de entrenamiento</string>
+           <string>Datos de prueba</string>
           </property>
          </widget>
         </item>
