@@ -3,6 +3,7 @@
 from PyQt5 import QtCore, QtGui, QtWidgets
 from PyQt5.QtCore import QObject, pyqtSlot
 from mainwindow import Ui_MainWindow
+from models.model import Model
 import sys
 
 class MainWindowUIClass( Ui_MainWindow ):
@@ -10,6 +11,7 @@ class MainWindowUIClass( Ui_MainWindow ):
         '''Initialize the super class
         '''
         super().__init__()
+        self.model = Model()
         
     def setupUi( self, MW ):
         ''' Setup the UI of the super class, and add here code
@@ -19,8 +21,7 @@ class MainWindowUIClass( Ui_MainWindow ):
 
         # close the lower part of the splitter to hide the 
         # debug window under normal operations
-        self.splitter.setSizes([300, 50])
-        self.pushButton_2.clicked.connect(self.browseSlot)
+        self.browseButton.clicked.connect(self.browseSlot)
 
     def debugPrint( self, msg ):
         '''Print the message in the text edit at the bottom of the
@@ -32,9 +33,29 @@ class MainWindowUIClass( Ui_MainWindow ):
     def browseSlot( self ):
         ''' Called when the user presses the Browse button
         '''
-        self.debugPrint( "Browse button pressed" )
+        self.debugPrint( "Botón examinar presionado" )
+        fileName, _ = QtWidgets.QFileDialog.getOpenFileName()
+        self.setFile(fileName)
 
+    def setFile(self, fileName):
+        if self.model.isValid(fileName):
+            if self.model.isCsv(fileName):
+                self.model.setFileName(fileName)
+                self.lineEdit.setText(fileName)
+                self.debugPrint('Archivo seleccionado: {0}'.format(fileName))
+            else:
+                self.debugPrint('El archivo {0} no es de tipo CSV'.format(fileName))
+                self.warningBox('El archivo seleccionado no es de tipo CSV')
+        else:
+            self.debugPrint('El archivo {0} no existe o no puede abrirse'.format(fileName))
+            self.warningBox('El archivo seleccionado no existe o no puede abrirse')
 
+    def warningBox(self, text):
+        msg = QtWidgets.QMessageBox()
+        msg.setIcon(QtWidgets.QMessageBox.Warning)
+        msg.setText(text)
+        msg.setStandardButtons(QtWidgets.QMessageBox.Ok)
+        msg.exec()
 
 def main():
     """
@@ -48,6 +69,7 @@ def main():
     MainWindow = QtWidgets.QMainWindow()
     ui = MainWindowUIClass()
     ui.setupUi(MainWindow)
+    MainWindow.setFixedSize(MainWindow.geometry().width(), MainWindow.geometry().height())
     MainWindow.show()
     sys.exit(app.exec_())
 
