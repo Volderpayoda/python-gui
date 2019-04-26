@@ -1,6 +1,6 @@
 # -*- coding: utf-8 -*-
 
-# Form implementation generated from reading ui file 'ui/mainwindow.ui'
+# Form implementation generated from reading ui file 'views/mainwindow.ui'
 #
 # Created by: PyQt5 UI code generator 5.9.2
 #
@@ -12,16 +12,24 @@ class Ui_MainWindow(object):
     def setupUi(self, MainWindow):
         MainWindow.setObjectName("MainWindow")
         MainWindow.setEnabled(True)
-        MainWindow.resize(618, 349)
+        MainWindow.resize(619, 250)
+        sizePolicy = QtWidgets.QSizePolicy(QtWidgets.QSizePolicy.Fixed, QtWidgets.QSizePolicy.Fixed)
+        sizePolicy.setHorizontalStretch(0)
+        sizePolicy.setVerticalStretch(0)
+        sizePolicy.setHeightForWidth(MainWindow.sizePolicy().hasHeightForWidth())
+        MainWindow.setSizePolicy(sizePolicy)
         self.centralwidget = QtWidgets.QWidget(MainWindow)
         self.centralwidget.setObjectName("centralwidget")
+        self.classifyButton = QtWidgets.QPushButton(self.centralwidget)
+        self.classifyButton.setGeometry(QtCore.QRect(530, 50, 75, 23))
+        self.classifyButton.setObjectName("classifyButton")
         self.frame = QtWidgets.QFrame(self.centralwidget)
-        self.frame.setGeometry(QtCore.QRect(9, 9, 581, 45))
+        self.frame.setGeometry(QtCore.QRect(9, 9, 601, 45))
         self.frame.setFrameShape(QtWidgets.QFrame.StyledPanel)
         self.frame.setFrameShadow(QtWidgets.QFrame.Raised)
         self.frame.setObjectName("frame")
         self.layoutWidget = QtWidgets.QWidget(self.frame)
-        self.layoutWidget.setGeometry(QtCore.QRect(10, 10, 561, 25))
+        self.layoutWidget.setGeometry(QtCore.QRect(10, 10, 581, 25))
         self.layoutWidget.setObjectName("layoutWidget")
         self.horizontalLayout = QtWidgets.QHBoxLayout(self.layoutWidget)
         self.horizontalLayout.setContentsMargins(0, 0, 0, 0)
@@ -33,16 +41,17 @@ class Ui_MainWindow(object):
         self.lineEdit.setObjectName("lineEdit")
         self.horizontalLayout.addWidget(self.lineEdit)
         self.browseButton = QtWidgets.QPushButton(self.layoutWidget)
+        sizePolicy = QtWidgets.QSizePolicy(QtWidgets.QSizePolicy.Fixed, QtWidgets.QSizePolicy.Fixed)
+        sizePolicy.setHorizontalStretch(0)
+        sizePolicy.setVerticalStretch(0)
+        sizePolicy.setHeightForWidth(self.browseButton.sizePolicy().hasHeightForWidth())
+        self.browseButton.setSizePolicy(sizePolicy)
         self.browseButton.setObjectName("browseButton")
         self.horizontalLayout.addWidget(self.browseButton)
         self.debugTextBrowser = QtWidgets.QTextBrowser(self.centralwidget)
-        self.debugTextBrowser.setGeometry(QtCore.QRect(10, 150, 601, 162))
+        self.debugTextBrowser.setGeometry(QtCore.QRect(10, 80, 601, 162))
         self.debugTextBrowser.setObjectName("debugTextBrowser")
         MainWindow.setCentralWidget(self.centralwidget)
-        self.menubar = QtWidgets.QMenuBar(MainWindow)
-        self.menubar.setGeometry(QtCore.QRect(0, 0, 618, 21))
-        self.menubar.setObjectName("menubar")
-        MainWindow.setMenuBar(self.menubar)
 
         self.retranslateUi(MainWindow)
         QtCore.QMetaObject.connectSlotsByName(MainWindow)
@@ -50,6 +59,7 @@ class Ui_MainWindow(object):
     def retranslateUi(self, MainWindow):
         _translate = QtCore.QCoreApplication.translate
         MainWindow.setWindowTitle(_translate("MainWindow", "MainWindow"))
+        self.classifyButton.setText(_translate("MainWindow", "Clasificar"))
         self.label_2.setText(_translate("MainWindow", "Archivo:"))
         self.browseButton.setText(_translate("MainWindow", "Examinar"))
 
