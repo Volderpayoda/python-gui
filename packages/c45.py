@@ -12,31 +12,22 @@ def impurityEval1(data, classcolumn):
     return p0
 
 def impurityCalc(data, attributes, classcolumn): # calcular-impurezas
-    for attribute in attributes:
-        dataOrd = data.sort_values(by = [attribute, classcolumn])
-        resg = dataOrd.iloc[0][classcolumn]
-        pos = 0
-        for value in dataOrd[classcolumn]:
-            if value != resg:
-                threshold = dataOrd.iloc[pos - 1][attribute]
-                impurityEval2(dataOrd, attribute, threshold, classcolumn)
-                resg = value
-            pos += 1
-    return False
+    p = pd.DataFrame(columns = ['attribute', 'value', 'impurity'])
+    for a in attributes:
+        valOrd = np.sort(data[a].unique()) # Arreglo que contiene los valores únicos y ordenados del atributo
+        for val in valOrd:
+            # imp = impurityEval2(data, a, classcolumn, val)
+            imp = 1
+            d = pd.DataFrame([[a, val, imp]], columns = ['attribute', 'value', 'impurity'])
+            p = p.append(d, ignore_index = True)
+    return p
+
+def impurityEval2(data, a, classcolumn, val):
+    pass
 
 def selectAg(p0,p,attributes):
     # To Do
     return False
-
-def impurityEval2(dataOrd, attribute, threshold, classcolumn):
-    n = dataOrd.shape[0]
-    # Generar los subconjuntos "<=" y ">"
-    data1 = dataOrd.loc[dataOrd[attribute] <= threshold]
-    n1 = data1.shape[0]
-    data2 = dataOrd.loc[dataOrd[attribute] > threshold]
-    n2 = data2.shape[0]
-    pi = n1/n * impurityEval1(data1, classcolumn) + n2/n * impurityEval1(data2, classcolumn)    
-    return pi
 
 def leafNode(cj):
     # To Do
@@ -57,6 +48,7 @@ def partitionD(data, valueAg, g):
 def frequentClass(data, classes, classcolumn):
     freq = data[classcolumn].value_counts()
     freq = freq.index.tolist()
+    # TODO Ordenar lexicograficamente las clases antes de emitir
     freqclass = freq[0]
     return freqclass
 
@@ -65,22 +57,26 @@ def sameClassC(data, classcolumn):
         return True
     return False
     
-
 def decisiontree(data, attributes, classes, classcolumn, tree, threshold):
+    # Calcula la clase más frequente
     cj = frequentClass(data, classes, classcolumn)
+    # Evaluamos para los casos base
     if sameClassC(data, classcolumn):
         leafNode(cj)
-    elif attributes.length() == 0:
-        leafNode(cj)
+    # Deshabilitamos esta parte ya que nunca se remueven atributos de la lista
+    # elif attributes.length() == 0:
+    #    leafNode(cj)
     else:
+        # El conjunto no es puro
         p0 = impurityEval1(data, classcolumn)
-        p = []
+        # Calculamos las entropías para todas las particiones posibles de cada atributo
         p = impurityCalc(attributes, data)
         g = selectAg(p0, p, attributes)
         if (p0 - p[g]) < threshold:
             cj = frequentClass(data, classes, classcolumn)
             leafNode(cj)
         else:
+            # Caso recursivo
             decisionNode(tree, attributes[g])
             Dsubsets = partitionD(data, attributes[g], g)
             j = 0
