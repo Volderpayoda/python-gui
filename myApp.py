@@ -2,42 +2,42 @@
 # D. Thiebaut
 from PyQt5 import QtCore, QtGui, QtWidgets
 from PyQt5.QtCore import QObject, pyqtSlot
-from mainwindow import Ui_MainWindow
+from views.mainwindow import Ui_MainWindow
 from models.model import Model
 import sys
 
 class MainWindowUIClass( Ui_MainWindow ):
     def __init__( self ):
-        '''Initialize the super class
-        '''
+        # Inicializar la superclase
         super().__init__()
+        # Incializar el modelo
         self.model = Model()
         
     def setupUi( self, MW ):
-        ''' Setup the UI of the super class, and add here code
-        that relates to the way we want our UI to operate.
-        '''
+        ''' Se configura la interfaz gráfica y se adhiere la funcionalidad'''
+        # Configuración de la interfaz gráfica sobre el marco de la ventana
         super().setupUi( MW )
 
-        # close the lower part of the splitter to hide the 
-        # debug window under normal operations
+        # Conexión de eventos con funciones
         self.browseButton.clicked.connect(self.browseSlot)
+        self.classifyButton.clicked.connect(self.classifySlot)
 
-    def debugPrint( self, msg ):
-        '''Print the message in the text edit at the bottom of the
-        horizontal splitter.
-        '''
+    def debugPrint(self, msg):
+        # Imprime un mensaje en la ventana de debug
         self.debugTextBrowser.append( msg )
 
-    # slot
-    def browseSlot( self ):
-        ''' Called when the user presses the Browse button
-        '''
+    def browseSlot(self):
+        # Llamado cuando el usuario presiona el Boton Examinar
         self.debugPrint( "Botón examinar presionado" )
         fileName, _ = QtWidgets.QFileDialog.getOpenFileName()
         self.setFile(fileName)
+    
+    def classifySlot(self):
+        # TO DO: En este punto se llamaría al algoritmo de clasificación
+        pass
 
     def setFile(self, fileName):
+        # Valida que el archivo sea valido y lo deja seleccionado. Caso contrario informa al usuario
         if self.model.isValid(fileName):
             if self.model.isCsv(fileName):
                 self.model.setFileName(fileName)
