@@ -21,6 +21,7 @@ class Ui_MainWindow(object):
         self.centralwidget = QtWidgets.QWidget(MainWindow)
         self.centralwidget.setObjectName("centralwidget")
         self.classifyButton = QtWidgets.QPushButton(self.centralwidget)
+        self.classifyButton.setEnabled(False)
         self.classifyButton.setGeometry(QtCore.QRect(530, 50, 75, 23))
         self.classifyButton.setObjectName("classifyButton")
         self.frame = QtWidgets.QFrame(self.centralwidget)
