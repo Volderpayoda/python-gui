@@ -18,15 +18,15 @@ class BinaryTree:
         return text
 
 class Cargo:
-    def __init__(self, node_type, value, threshold):
+    def __init__(self, nodeType, value, limit):
         # El tipo del nodo puede ser 'leaf' o 'decision'
-        self.type = node_type
+        self.type = nodeType
         # Si es un nodo de decisión, el valor es la columna sobre la cual se está decidiendo
         # Si es un nodo hoja, el valor es la clase final 
         self.value = value
-        if node_type == 'decision':
+        if nodeType == 'decision':
             # Si es un nodo de decisión, se debe indicar el valor con el cual se va a particionar el intervalo.
-            self.limit = threshold 
+            self.limit = limit 
 
         
 
