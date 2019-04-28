@@ -1,6 +1,7 @@
 import numpy as np
 import pandas as pd
 import math
+import packages.binaryTree as bt
 
 def impurityEval1(data, classcolumn):
     # Calcula la entropía del conjunto data
@@ -48,16 +49,30 @@ def selectAg(p):
     Ag = p.iloc[0]
     return Ag['attribute'], Ag['value'], Ag['impurity']
 
-def leafNode(cj):
-    # To Do
+def leafNode(cj, tree, data, classcolumn):
+    tree.cargo = bt.Cargo()
+    # Se indica que el nodo es de tipo hoja
+    tree.cargo.type = 'leaf'
+    # Se asigna el valor de la clase
+    tree.cargo.value = cj
+    # Calcular y asignar el supportCount
+    tree.cargo.supportCount = data.loc[data[classcolumn] == cj].shape[0]    # Calcular y asignar la confianza
+    # Calcular y asignar la confianza
+    tree.cargo.confidence = [tree.cargo.supportCount, data.shape[0]]
     return False
-
+'''
 def createBranch(valueAg):
     # To Do    
     return False
-
-def decisionNode(tree, valueAg):
-    # To Do
+'''
+def decisionNode(tree, attribute, value):
+    tree.cargo = bt.Cargo()
+    # Indicar que es un nodo de decisión
+    tree.cargo.type = 'decision'
+    # Indicar sobre cual atributo se está decidiendo
+    tree.cargo.value = attribute
+    # Indicar el punto de corte
+    tree.cargo.limit = value
     return False
 
 def partitionD(data, attribute, val):
@@ -82,7 +97,8 @@ def decisionTree(data, attributes, classes, classcolumn, tree, threshold):
     cj = frequentClass(data, classes, classcolumn)
     # Evaluamos para los casos base
     if sameClassC(data, classcolumn):
-        leafNode(cj)
+        leafNode(cj, tree, data, classcolumn)
+        return tree
     # Deshabilitamos esta parte ya que nunca se remueven atributos de la lista
     # elif attributes.length() == 0:
     #    leafNode(cj)
@@ -94,15 +110,16 @@ def decisionTree(data, attributes, classes, classcolumn, tree, threshold):
         a, val, imp = selectAg(p)
         if (p0 - imp) < threshold:
             cj = frequentClass(data, classes, classcolumn)
-            leafNode(cj)
+            leafNode(cj, tree, data, classcolumn)
+            return tree
         else:
             # Caso recursivo
             decisionNode(tree, a, val)
             data1, data2 = partitionD(data, a, val)
-            j = 0
             if data1.shape[0] != 0:
-                createBranch(a)
-                decisionTree(data1, attributes, tree)
+                # createBranch(a)
+                tree.left = decisionTree(data1, attributes, classes, classcolumn, bt.BinaryTree(), threshold)
             if data2.shape[0] != 0:
-                createBranch(a)
-                decisionTree(data2, attributes, tree)
+                # createBranch(a)
+                tree.right = decisionTree(data2, attributes, classes, classcolumn, bt.BinaryTree(), threshold)
+    return tree
