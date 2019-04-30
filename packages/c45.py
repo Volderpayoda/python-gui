@@ -80,12 +80,15 @@ def partitionD(data, attribute, val):
     data2 = data.loc[data[attribute] > val]
     return (data1, data2)
 
-def frequentClass(data, classes, classcolumn):
+def frequentClass(data, classcolumn):
     freq = data[classcolumn].value_counts()
-    freq = freq.index.tolist()
-    # TODO Ordenar lexicograficamente las clases antes de emitir
-    freqclass = freq[0]
-    return freqclass
+    max = freq.max()
+    values = np.array(freq.tolist())
+    keys = np.array(freq.index.tolist())
+    order = np.lexsort((keys, values))
+    for i in order:
+        if values[i] == max:
+            return keys[i]
 
 def sameClassC(data, classcolumn):
     if data[classcolumn].nunique() == 1:
@@ -94,7 +97,7 @@ def sameClassC(data, classcolumn):
     
 def decisionTree(data, attributes, classes, classcolumn, tree, threshold):
     # Calcula la clase más frequente
-    cj = frequentClass(data, classes, classcolumn)
+    cj = frequentClass(data, classcolumn)
     # Evaluamos para los casos base
     if sameClassC(data, classcolumn):
         leafNode(cj, tree, data, classcolumn)
@@ -109,7 +112,7 @@ def decisionTree(data, attributes, classes, classcolumn, tree, threshold):
         p = impurityCalc(data, attributes, classcolumn)
         a, val, imp = selectAg(p)
         if (p0 - imp) < threshold:
-            cj = frequentClass(data, classes, classcolumn)
+            # cj = frequentClass(data, classes, classcolumn)
             leafNode(cj, tree, data, classcolumn)
             return tree
         else:
