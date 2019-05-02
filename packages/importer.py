@@ -16,11 +16,11 @@ def import_csv(path, sep = ','):
     # Eliminar la columna de clase de la lista de atributos
     attributes = attributes.drop(labels = [attributes[length]])
 
-    dictionary = {
+    problem = {
         "data": data,
         "attributes": attributes,
         "classcolumn": classcolumn,
         "classes": classes
     }
 
-    return dictionary
+    return problem
