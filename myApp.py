@@ -45,7 +45,7 @@ class MainWindowUIClass(Ui_MainWindow):
     def setFile(self, fileName):
         # Verifica que el archivo sea valido y lo deja seleccionado. Caso contrario informa al usuario
         if not self.model.isValidFile(fileName):
-            warningBox('El archivo seleccionado no existe o no se puede acceder.')
+            self.warningBox('El archivo seleccionado no existe o no se puede acceder.')
             return 
         if not self.model.isCsv(fileName):
             self.warningBox('El archivo seleccionado no es de tipo CSV.')
