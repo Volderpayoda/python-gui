@@ -36,6 +36,9 @@ class MainWindowUIClass(Ui_MainWindow):
         self.discardButton.clicked.connect(self.discardSlot)
 
         # Inicializar elementos de la interfaz
+        doubleValidator = QtGui.QDoubleValidator(decimals = 2)
+        self.testPerEdit.setValidator(doubleValidator)
+        self.thresholdEdit.setValidator(doubleValidator)
         self.disableItems([self.discardButton, self.fileBrowserFrame, self.thresholdFrame, self.classifyFrame])
 
     def debugPrint(self, msg):
@@ -113,8 +116,12 @@ class MainWindowUIClass(Ui_MainWindow):
     def classifySlot(self):
         # TODO: En este punto se llamaría al algoritmo de clasificación
         self.debugPrint("Botón clasificar presionado")
+        if self.thresholdEdit.text() == '':
+            self.warningBox('Debe ingresar un valor de umbral para la clasificación.')
+            return
+        threshold = self.thresholdEdit.text()
         problem = self.model.getProblem()
-        tree = decisionTree(problem.data, problem.attributes, problem.classes, problem.classcolumn, bt.BinaryTree(), 0.1)
+        tree = decisionTree(problem.data, problem.attributes, problem.classes, problem.classcolumn, bt.BinaryTree(), threshold)
         self.debugPrint(str(tree))
     
     def disableItems(self, items):
