@@ -22,15 +22,21 @@ class MainWindowUIClass(Ui_MainWindow):
         super().setupUi(MW)
 
         # Ajustar geometría de elementos de pantalla
-        self.separator.setFixedWidth(65)
-        self.lineTerminator.setFixedWidth(65)
-        self.testPer.setFixedWidth(65)
-        
+        self.separatorEdit.setFixedWidth(65)
+        self.lineTerminatorEdit.setFixedWidth(65)
+        self.testPerEdit.setFixedWidth(65)
+        self.separatorLabel.setFixedWidth(163)
+        self.lineTerminatorLabel.setFixedWidth(163)
+        self.testPerLabel.setFixedWidth(163)
+        self.thresholdEdit.setFixedWidth(65)
         # Conexión de eventos con funciones
         self.browseButton.clicked.connect(self.browseSlot)
         self.classifyButton.clicked.connect(self.classifySlot)
         self.confirmButton.clicked.connect(self.confirmSlot)
         self.discardButton.clicked.connect(self.discardSlot)
+
+        # Inicializar elementos de la interfaz
+        self.disableItems([self.discardButton, self.fileBrowserFrame, self.thresholdFrame, self.classifyFrame])
 
     def debugPrint(self, msg):
         # Imprime un mensaje en la ventana de debug
@@ -52,7 +58,7 @@ class MainWindowUIClass(Ui_MainWindow):
         self.trainingLineEdit.setText(fileName)
         self.model.setFileName(fileName)
         self.model.setProblem(problem)
-        self.classifyButton.setEnabled(True)
+        self.classifyFrame.setEnabled(True)
 
     def warningBox(self, text):
         msg = QtWidgets.QMessageBox()
@@ -63,6 +69,38 @@ class MainWindowUIClass(Ui_MainWindow):
         msg.exec()
 
     # Slots del programa para el entrenamiento
+    def confirmSlot(self):
+        # Llamado cuando el usuario presiona el botón Confirmar
+        self.debugPrint('Boton confirmar presionado')
+        # Controla que se haya ingresado el porcentaje de elementos para prueba
+        if self.testPerEdit.text() == '':
+            self.warningBox('Debe indicar un porcentaje de elementos que serán usados para la prueba')
+            return
+        else:
+            self.testPer = self.testPerEdit.text()
+        # Asigna los valores para el separador y el fin de línea 
+        if self.separatorEdit.text() == '':
+            self.separator = ','
+            self.separatorEdit.setText(self.separator)
+        else:
+            self.separator = self.separatorEdit.text()
+        
+        if self.lineTerminatorEdit.text() == '':
+            self.lineTerminator = '\n'
+            self.lineTerminatorEdit.setText('\\n')
+        else:
+            self.lineTerminator = self.lineTerminatorEdit.text()
+        self.debugPrint('Separador: {0} \nFin de línea: {1} \nPorcentaje: {2}'.format(repr(self.separator), repr(self.lineTerminator), self.testPer))
+        self.disableItems([self.confirmButton, self.configurationFrame])
+        self.enableItems([self.discardButton, self.fileBrowserFrame, self.thresholdFrame])
+        self.discardButton.setEnabled(True)
+    
+    def discardSlot(self):
+        # Llamado cuando el usuario presiona el Botón Descartar
+        self.debugPrint('Botón descartar presionado')
+        self.enableItems([self.confirmButton, self.configurationFrame])
+        self.disableItems([self.fileBrowserFrame, self.discardButton])
+    
     def browseSlot(self):
         # Llamado cuando el usuario presiona el Boton Examinar
         self.debugPrint('Botón examinar presionado')
@@ -78,40 +116,16 @@ class MainWindowUIClass(Ui_MainWindow):
         problem = self.model.getProblem()
         tree = decisionTree(problem.data, problem.attributes, problem.classes, problem.classcolumn, bt.BinaryTree(), 0.1)
         self.debugPrint(str(tree))
-
-    def confirmSlot(self):
-        self.debugPrint('Boton confirmar presionado')
-        # Controla que se haya ingresado el porcentaje de elementos para prueba
-        if self.testPer.text() == '':
-            self.warningBox('Debe indicar un porcentaje de elementos que serán usados para la prueba')
-            return
-        else:
-            testPer = self.testPer.text()
-        # Asigna los valores para el separador y el fin de línea 
-        if self.separator.text() == '':
-            separator = ','
-        else:
-            separator = self.separator.text()
-        
-        if self.lineTerminator.text() == '':
-            lineTerminator = '\n'
-        else:
-            lineTerminator = self.lineTerminator.text()
-        # self.debugPrint('Separador: {0} \n Fin de línea: {1} \n Porcentaje: {2}'.format(separator, lineTerminator, testPer)
-        self.confirmButton.setEnabled(False)
-        self.configurationFrame.setEnabled(False)
     
-    def discardSlot(self):
-        self.confirmButton.setEnabled(True)
-        self.configurationFrame.setEnabled(True)     
+    def disableItems(self, items):
+        for i in items:
+            i.setEnabled(False)
+        return
 
-    # Slots del programa para la prueba
-    def testBrowseSlot(self):
-        # TODO
-        pass
-    def testTestSlot(self):
-        # TODO
-        pass
+    def enableItems(self, items):
+        for i in items:
+            i.setEnabled(True)
+        return
 
 def main():
     # El punto de entrada del programa
@@ -120,6 +134,7 @@ def main():
     ui = MainWindowUIClass()
     ui.setupUi(MainWindow)
     MainWindow.setFixedSize(MainWindow.geometry().width(), MainWindow.geometry().height())
+    MainWindow.setWindowTitle('Árboles de decisión')
     MainWindow.show()
     sys.exit(app.exec_())
 
