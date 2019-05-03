@@ -29,7 +29,7 @@
       <x>10</x>
       <y>10</y>
       <width>601</width>
-      <height>141</height>
+      <height>120</height>
      </rect>
     </property>
     <property name="frameShape">
@@ -44,7 +44,7 @@
        <x>0</x>
        <y>0</y>
        <width>601</width>
-       <height>131</height>
+       <height>120</height>
       </rect>
      </property>
      <layout class="QVBoxLayout" name="configuration">
@@ -63,7 +63,7 @@
          </widget>
         </item>
         <item>
-         <widget class="Line" name="line_2">
+         <widget class="Line" name="titleLine">
           <property name="orientation">
            <enum>Qt::Horizontal</enum>
           </property>
@@ -74,17 +74,17 @@
       <item>
        <layout class="QHBoxLayout" name="separatorLayout">
         <item>
-         <widget class="QLabel" name="label_4">
+         <widget class="QLabel" name="separatorLabel">
           <property name="text">
            <string>Separador de campos:</string>
           </property>
          </widget>
         </item>
         <item>
-         <widget class="QLineEdit" name="separator"/>
+         <widget class="QLineEdit" name="separatorEdit"/>
         </item>
         <item>
-         <widget class="QLabel" name="label_7">
+         <widget class="QLabel" name="separatorDefaultLabel">
           <property name="text">
            <string>(por defecto ',')</string>
           </property>
@@ -108,17 +108,17 @@
       <item>
        <layout class="QHBoxLayout" name="lineTerminatorLayout">
         <item>
-         <widget class="QLabel" name="label_5">
+         <widget class="QLabel" name="lineTerminatorLabel">
           <property name="text">
            <string>Delimitador de fila:</string>
           </property>
          </widget>
         </item>
         <item>
-         <widget class="QLineEdit" name="lineTerminator"/>
+         <widget class="QLineEdit" name="lineTerminatorEdit"/>
         </item>
         <item>
-         <widget class="QLabel" name="label_8">
+         <widget class="QLabel" name="lineTerminatorDefaultLabel">
           <property name="text">
            <string>(por defecto 'salto de línea')</string>
           </property>
@@ -142,14 +142,14 @@
       <item>
        <layout class="QHBoxLayout" name="testPercentajeLayout">
         <item>
-         <widget class="QLabel" name="label_6">
+         <widget class="QLabel" name="testPerLabel">
           <property name="text">
            <string>Porcentaje de datos para prueba:</string>
           </property>
          </widget>
         </item>
         <item>
-         <widget class="QLineEdit" name="testPer"/>
+         <widget class="QLineEdit" name="testPerEdit"/>
         </item>
         <item>
          <spacer name="horizontalSpacer_2">
@@ -173,17 +173,137 @@
     <property name="geometry">
      <rect>
       <x>10</x>
-      <y>260</y>
+      <y>300</y>
       <width>599</width>
-      <height>261</height>
+      <height>221</height>
      </rect>
     </property>
    </widget>
-   <widget class="QWidget" name="">
+   <widget class="QFrame" name="fileBrowserFrame">
     <property name="geometry">
      <rect>
       <x>10</x>
-      <y>150</y>
+      <y>180</y>
+      <width>601</width>
+      <height>36</height>
+     </rect>
+    </property>
+    <property name="frameShape">
+     <enum>QFrame::StyledPanel</enum>
+    </property>
+    <property name="frameShadow">
+     <enum>QFrame::Raised</enum>
+    </property>
+    <widget class="QWidget" name="layoutWidget">
+     <property name="geometry">
+      <rect>
+       <x>0</x>
+       <y>0</y>
+       <width>601</width>
+       <height>36</height>
+      </rect>
+     </property>
+     <layout class="QVBoxLayout" name="fileBrowserLayout">
+      <item>
+       <widget class="Line" name="line">
+        <property name="orientation">
+         <enum>Qt::Horizontal</enum>
+        </property>
+       </widget>
+      </item>
+      <item>
+       <layout class="QHBoxLayout" name="fileBrowserLayoutH">
+        <item>
+         <widget class="QLabel" name="label_2">
+          <property name="text">
+           <string>Archivo:</string>
+          </property>
+         </widget>
+        </item>
+        <item>
+         <widget class="QLineEdit" name="trainingLineEdit">
+          <property name="enabled">
+           <bool>false</bool>
+          </property>
+          <property name="acceptDrops">
+           <bool>false</bool>
+          </property>
+         </widget>
+        </item>
+        <item>
+         <widget class="QPushButton" name="browseButton">
+          <property name="sizePolicy">
+           <sizepolicy hsizetype="Fixed" vsizetype="Fixed">
+            <horstretch>0</horstretch>
+            <verstretch>0</verstretch>
+           </sizepolicy>
+          </property>
+          <property name="text">
+           <string>Examinar</string>
+          </property>
+         </widget>
+        </item>
+       </layout>
+      </item>
+     </layout>
+    </widget>
+   </widget>
+   <widget class="QFrame" name="thresholdFrame">
+    <property name="geometry">
+     <rect>
+      <x>10</x>
+      <y>230</y>
+      <width>601</width>
+      <height>22</height>
+     </rect>
+    </property>
+    <property name="frameShape">
+     <enum>QFrame::StyledPanel</enum>
+    </property>
+    <property name="frameShadow">
+     <enum>QFrame::Raised</enum>
+    </property>
+    <widget class="QWidget" name="">
+     <property name="geometry">
+      <rect>
+       <x>0</x>
+       <y>0</y>
+       <width>601</width>
+       <height>22</height>
+      </rect>
+     </property>
+     <layout class="QHBoxLayout" name="thresholdLayout">
+      <item>
+       <widget class="QLabel" name="thresholdLabel">
+        <property name="text">
+         <string>Umbral del modelo:</string>
+        </property>
+       </widget>
+      </item>
+      <item>
+       <widget class="QLineEdit" name="thresholdEdit"/>
+      </item>
+      <item>
+       <spacer name="horizontalSpacer_5">
+        <property name="orientation">
+         <enum>Qt::Horizontal</enum>
+        </property>
+        <property name="sizeHint" stdset="0">
+         <size>
+          <width>40</width>
+          <height>20</height>
+         </size>
+        </property>
+       </spacer>
+      </item>
+     </layout>
+    </widget>
+   </widget>
+   <widget class="QWidget" name="layoutWidget">
+    <property name="geometry">
+     <rect>
+      <x>10</x>
+      <y>140</y>
       <width>601</width>
       <height>25</height>
      </rect>
@@ -218,75 +338,68 @@
      </item>
     </layout>
    </widget>
-   <widget class="QWidget" name="">
+   <widget class="QFrame" name="classifyFrame">
     <property name="geometry">
      <rect>
       <x>10</x>
-      <y>210</y>
+      <y>260</y>
       <width>601</width>
-      <height>36</height>
+      <height>25</height>
      </rect>
     </property>
-    <layout class="QVBoxLayout" name="fileBrowserLayout">
-     <item>
-      <widget class="Line" name="line">
-       <property name="orientation">
-        <enum>Qt::Horizontal</enum>
-       </property>
-      </widget>
-     </item>
-     <item>
-      <layout class="QHBoxLayout" name="fileBrowserLayoutH">
-       <item>
-        <widget class="QLabel" name="label_2">
-         <property name="text">
-          <string>Archivo:</string>
-         </property>
-        </widget>
-       </item>
-       <item>
-        <widget class="QLineEdit" name="trainingLineEdit">
-         <property name="enabled">
-          <bool>false</bool>
-         </property>
-         <property name="acceptDrops">
-          <bool>false</bool>
-         </property>
-        </widget>
-       </item>
-       <item>
-        <widget class="QPushButton" name="browseButton">
-         <property name="sizePolicy">
-          <sizepolicy hsizetype="Fixed" vsizetype="Fixed">
-           <horstretch>0</horstretch>
-           <verstretch>0</verstretch>
-          </sizepolicy>
-         </property>
-         <property name="text">
-          <string>Examinar</string>
-         </property>
-        </widget>
-       </item>
-       <item>
-        <widget class="QPushButton" name="classifyButton">
-         <property name="enabled">
-          <bool>false</bool>
-         </property>
-         <property name="text">
-          <string>Clasificar</string>
-         </property>
-        </widget>
-       </item>
-      </layout>
-     </item>
-    </layout>
+    <property name="frameShape">
+     <enum>QFrame::StyledPanel</enum>
+    </property>
+    <property name="frameShadow">
+     <enum>QFrame::Raised</enum>
+    </property>
+    <widget class="QWidget" name="">
+     <property name="geometry">
+      <rect>
+       <x>0</x>
+       <y>0</y>
+       <width>601</width>
+       <height>25</height>
+      </rect>
+     </property>
+     <layout class="QHBoxLayout" name="horizontalLayout">
+      <item>
+       <spacer name="horizontalSpacer_6">
+        <property name="orientation">
+         <enum>Qt::Horizontal</enum>
+        </property>
+        <property name="sizeHint" stdset="0">
+         <size>
+          <width>40</width>
+          <height>20</height>
+         </size>
+        </property>
+       </spacer>
+      </item>
+      <item>
+       <widget class="QPushButton" name="classifyButton">
+        <property name="enabled">
+         <bool>true</bool>
+        </property>
+        <property name="text">
+         <string>Clasificar</string>
+        </property>
+       </widget>
+      </item>
+     </layout>
+    </widget>
    </widget>
    <zorder>configurationFrame</zorder>
    <zorder>debugTextBrowser</zorder>
-   <zorder></zorder>
-   <zorder></zorder>
-   <zorder>horizontalSpacer_4</zorder>
-   <zorder>line</zorder>
+   <zorder>fileBrowserFrame</zorder>
+   <zorder>thresholdFrame</zorder>
+   <zorder>thresholdLabel</zorder>
+   <zorder>thresholdEdit</zorder>
+   <zorder>layoutWidget</zorder>
+   <zorder>classifyButton</zorder>
+   <zorder>horizontalSpacer_6</zorder>
+   <zorder>horizontalSpacer_6</zorder>
+   <zorder>classifyFrame</zorder>
   </widget>
  </widget>
  <resources/>
