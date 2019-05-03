@@ -1,5 +1,4 @@
 from os import path
-from ..packages.importer import *
 # Modelo del patrón MVC generado para el manejo del archivo de datos
 # Solamente se aceptan archivos CSV
 class Model:
@@ -32,24 +31,7 @@ class Model:
         return False
     
     def isValidProblem(self, problem):
-        if problem.attributes.size != 2:
-            return False, "El modelo debe contener obligatoriamente 2 atributos"
-        return True, ""
-
-    def setModel(self, fileName):
-        # Valida que el archivo seleccionado sea válido
-        flag, msg = self.isValid(fileName)
-        if not flag:
-            return False, msg
-        problem = import_csv(fileName)
-        # Valida que el problema de clasificación sea válido
-        flag = msg = self.isValidProblem(problem)
-        if not flag:
-            return False, msg
-        # Configurar el modelo
-        self.setFileName(fileName)
-        self.setProblem(problem)
-        return True, ""
+        return problem.attributes.size == 2
 
     # Setters y getters
     def setFileName(self, fileName):
