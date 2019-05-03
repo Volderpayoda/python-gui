@@ -1,7 +1,9 @@
 import numpy as np
 import pandas as pd
 
-def import_csv(path, sep = ','):
+class Problem: pass
+
+def import_csv(path, sep = ',', lineterminator = '\n'):
     # Obtener el conjunto de datos
     data = pd.read_csv(filepath_or_buffer = path, sep = sep)
 
@@ -16,11 +18,19 @@ def import_csv(path, sep = ','):
     # Eliminar la columna de clase de la lista de atributos
     attributes = attributes.drop(labels = [attributes[length]])
 
+    problem = Problem()
+    problem.data = data
+    problem.attributes = attributes
+    problem.classcolumn = classcolumn
+    problem.classes = classes
+    return problem
+'''
     problem = {
         "data": data,
         "attributes": attributes,
         "classcolumn": classcolumn,
         "classes": classes
     }
+'''
 
-    return problem
+    
