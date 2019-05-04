@@ -11,6 +11,7 @@ import sys
 
 class MainWindowUIClass(Ui_MainWindow):
     def __init__(self):
+        ''' Inicialización de la UI '''
         # Inicializar la superclase
         super().__init__()
         # Incializar los modelos
@@ -41,10 +42,6 @@ class MainWindowUIClass(Ui_MainWindow):
         self.thresholdEdit.setValidator(doubleValidator)
         self.disableItems([self.discardButton, self.fileBrowserFrame, self.thresholdFrame, self.classifyFrame])
 
-    def debugPrint(self, msg):
-        # Imprime un mensaje en la ventana de debug
-        self.debugTextBrowser.append(msg)
-
     def setFile(self, fileName):
         # Verifica que el archivo sea valido y lo deja seleccionado. Caso contrario informa al usuario
         if not self.model.isValidFile(fileName):
@@ -63,15 +60,7 @@ class MainWindowUIClass(Ui_MainWindow):
         self.model.setProblem(problem)
         self.classifyFrame.setEnabled(True)
 
-    def warningBox(self, text):
-        msg = QtWidgets.QMessageBox()
-        msg.setIcon(QtWidgets.QMessageBox.Warning)
-        msg.setText(text)
-        msg.setWindowTitle('Advertencia')
-        msg.setStandardButtons(QtWidgets.QMessageBox.Ok)
-        msg.exec()
-
-    # Slots del programa para el entrenamiento
+    ''' Slots '''
     def confirmSlot(self):
         # Llamado cuando el usuario presiona el botón Confirmar
         self.debugPrint('Boton confirmar presionado')
@@ -123,7 +112,8 @@ class MainWindowUIClass(Ui_MainWindow):
         problem = self.model.getProblem()
         tree = decisionTree(problem.data, problem.attributes, problem.classes, problem.classcolumn, bt.BinaryTree(), threshold)
         self.debugPrint(str(tree))
-    
+
+    ''' Utilidades '''    
     def disableItems(self, items):
         for i in items:
             i.setEnabled(False)
@@ -133,6 +123,18 @@ class MainWindowUIClass(Ui_MainWindow):
         for i in items:
             i.setEnabled(True)
         return
+
+    def warningBox(self, text):
+        msg = QtWidgets.QMessageBox()
+        msg.setIcon(QtWidgets.QMessageBox.Warning)
+        msg.setText(text)
+        msg.setWindowTitle('Advertencia')
+        msg.setStandardButtons(QtWidgets.QMessageBox.Ok)
+        msg.exec()
+
+    def debugPrint(self, msg):
+        # Imprime un mensaje en la ventana de debug
+        self.debugTextBrowser.append(msg)
 
 def main():
     # El punto de entrada del programa
