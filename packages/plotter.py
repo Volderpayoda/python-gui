@@ -1,4 +1,48 @@
-import matplotlib.pyplot as plt
+import matplotlib.cm as cm
 
-def plotSolution(problem, tree):
-    pass
+def plotSolution(plt, problem, tree):
+    # Graficar los puntos discriminando por clase
+    plotData(plt, problem, tree)
+    # Obtener los nombres de los atributos
+    axx, axy = getAxis(problem)
+    # Obtener mínimox y máximos de cada columna atributo 
+    xmin, xmax = getLimits(problem, axx)
+    ymin, ymax = getLimits(problem, axy)
+    # Realizar el particionado recursivo del conjunto de datos
+    partitionPlot(plt, tree, axx, axy, xmin, xmax, ymin, ymax)
+    # Retornar el gráfico
+    return plt
+
+def getAxis(problem):
+    axx = problem.attributes[0]
+    axy = problem.attributes[1]
+    return axx, axy
+
+def getLimits(problem, axis):
+    min = problem.data[axis].min()
+    max = problem.data[axis].max()
+    return min, max
+
+def plotData(plt, problem, tree):
+    color = cm.get_cmap(name = 'tab20')
+    i = 0.0
+    for c in problem.classes:
+        dataTemp = problem.data.loc[problem.data[problem.classcolumn] == c]
+        x = dataTemp[problem.attributes[0]]
+        y = dataTemp[problem.attributes[1]]
+        plt.scatter(x = x, y = y, marker = 'o', c = color(i))
+        i = i + 0.05
+
+def partitionPlot(plt, tree, axx, axy, xmin, xmax, ymin, ymax):
+    left = tree.left
+    right = tree.right
+    if tree.cargo.type == 'decision':
+        attribute = tree.cargo.value
+        if attribute == axx:
+            plt.vlines(x = tree.cargo.limit, ymin = ymin, ymax = ymax)
+            partitionPlot(plt, left, axx, axy, xmin, tree.cargo.limit, ymin, ymax)
+            partitionPlot(plt, right, axx, axy, tree.cargo.limit, xmax, ymin, ymax)
+        if attribute == axy:
+            plt.hlines(y = tree.cargo.limit, xmin = xmin, xmax = xmax)
+            partitionPlot(plt, left, axx, axy, xmin, xmax, ymin, tree.cargo.limit)
+            partitionPlot(plt, right, axx, axy, xmin, ymax, tree.cargo.limit, ymax)
