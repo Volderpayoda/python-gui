@@ -1,15 +1,16 @@
 import matplotlib.cm as cm
+import matplotlib.pyplot as plt
 
-def plotSolution(plt, problem, tree):
+def plotSolution(problem, tree):
     # Graficar los puntos discriminando por clase
-    plotData(plt, problem, tree)
+    plotData(problem, tree)
     # Obtener los nombres de los atributos
     axx, axy = getAxis(problem)
     # Obtener mínimox y máximos de cada columna atributo 
     xmin, xmax = getLimits(problem, axx)
     ymin, ymax = getLimits(problem, axy)
     # Realizar el particionado recursivo del conjunto de datos
-    partitionPlot(plt, tree, axx, axy, xmin, xmax, ymin, ymax)
+    partitionPlot(tree, axx, axy, xmin, xmax, ymin, ymax)
     # Retornar el gráfico
     return plt
 
@@ -23,26 +24,26 @@ def getLimits(problem, axis):
     max = problem.data[axis].max()
     return min, max
 
-def plotData(plt, problem, tree):
+def plotData(problem, tree):
     color = cm.get_cmap(name = 'tab20')
     i = 0.0
     for c in problem.classes:
         dataTemp = problem.data.loc[problem.data[problem.classcolumn] == c]
         x = dataTemp[problem.attributes[0]]
         y = dataTemp[problem.attributes[1]]
-        plt.scatter(x = x, y = y, marker = 'o', c = color(i))
+        plt.scatter(x = x, y = y, marker = 'o', c = [color(i)])
         i = i + 0.05
 
-def partitionPlot(plt, tree, axx, axy, xmin, xmax, ymin, ymax):
+def partitionPlot(tree, axx, axy, xmin, xmax, ymin, ymax):
     left = tree.left
     right = tree.right
     if tree.cargo.type == 'decision':
         attribute = tree.cargo.value
         if attribute == axx:
             plt.vlines(x = tree.cargo.limit, ymin = ymin, ymax = ymax)
-            partitionPlot(plt, left, axx, axy, xmin, tree.cargo.limit, ymin, ymax)
-            partitionPlot(plt, right, axx, axy, tree.cargo.limit, xmax, ymin, ymax)
+            partitionPlot(left, axx, axy, xmin, tree.cargo.limit, ymin, ymax)
+            partitionPlot(right, axx, axy, tree.cargo.limit, xmax, ymin, ymax)
         if attribute == axy:
             plt.hlines(y = tree.cargo.limit, xmin = xmin, xmax = xmax)
-            partitionPlot(plt, left, axx, axy, xmin, xmax, ymin, tree.cargo.limit)
-            partitionPlot(plt, right, axx, axy, xmin, ymax, tree.cargo.limit, ymax)
+            partitionPlot(left, axx, axy, xmin, xmax, ymin, tree.cargo.limit)
+            partitionPlot(right, axx, axy, xmin, ymax, tree.cargo.limit, ymax)
