@@ -108,7 +108,7 @@ class MainWindowUIClass(Ui_MainWindow):
         if self.thresholdEdit.text() == '':
             self.warningBox('Debe ingresar un valor de umbral para la clasificación.')
             return
-        threshold = self.thresholdEdit.text()
+        threshold = float(self.thresholdEdit.text())
         problem = self.model.getProblem()
         tree = decisionTree(problem.data, problem.attributes, problem.classes, problem.classcolumn, bt.BinaryTree(), threshold)
         self.debugPrint(str(tree))
