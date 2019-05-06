@@ -173,9 +173,9 @@
     <property name="geometry">
      <rect>
       <x>10</x>
-      <y>300</y>
+      <y>310</y>
       <width>599</width>
-      <height>221</height>
+      <height>211</height>
      </rect>
     </property>
    </widget>
@@ -263,7 +263,7 @@
     <property name="frameShadow">
      <enum>QFrame::Raised</enum>
     </property>
-    <widget class="QWidget" name="">
+    <widget class="QWidget" name="layoutWidget">
      <property name="geometry">
       <rect>
        <x>0</x>
@@ -353,7 +353,7 @@
     <property name="frameShadow">
      <enum>QFrame::Raised</enum>
     </property>
-    <widget class="QWidget" name="">
+    <widget class="QWidget" name="layoutWidget">
      <property name="geometry">
       <rect>
        <x>0</x>
@@ -377,29 +377,31 @@
        </spacer>
       </item>
       <item>
-       <widget class="QPushButton" name="classifyButton">
+       <widget class="QPushButton" name="buildTreeButton">
         <property name="enabled">
          <bool>true</bool>
         </property>
         <property name="text">
-         <string>Clasificar</string>
+         <string>Construir Árbol</string>
         </property>
        </widget>
       </item>
      </layout>
     </widget>
    </widget>
-   <zorder>configurationFrame</zorder>
-   <zorder>debugTextBrowser</zorder>
-   <zorder>fileBrowserFrame</zorder>
-   <zorder>thresholdFrame</zorder>
-   <zorder>thresholdLabel</zorder>
-   <zorder>thresholdEdit</zorder>
-   <zorder>layoutWidget</zorder>
-   <zorder>classifyButton</zorder>
-   <zorder>horizontalSpacer_6</zorder>
-   <zorder>horizontalSpacer_6</zorder>
-   <zorder>classifyFrame</zorder>
+   <widget class="Line" name="line_2">
+    <property name="geometry">
+     <rect>
+      <x>10</x>
+      <y>290</y>
+      <width>601</width>
+      <height>16</height>
+     </rect>
+    </property>
+    <property name="orientation">
+     <enum>Qt::Horizontal</enum>
+    </property>
+   </widget>
   </widget>
  </widget>
  <resources/>
