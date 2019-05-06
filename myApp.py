@@ -37,11 +37,11 @@ class MainWindowUIClass(Ui_MainWindow):
         self.confirmButton.clicked.connect(self.confirmSlot)
         self.discardButton.clicked.connect(self.discardSlot)
 
-        # Inicializar elementos de la interfaz
+        # Inicializar elementos de la interfaz.
         doubleValidator = QtGui.QDoubleValidator(decimals = 2)
         self.testPerEdit.setValidator(doubleValidator)
         self.thresholdEdit.setValidator(doubleValidator)
-        self.disableItems([self.discardButton, self.fileBrowserFrame, self.thresholdFrame, self.classifyFrame])
+        self.disableItems([self.discardButton, self.fileBrowserFrame, self.thresholdFrame, self.buildTreeFrame])
 
     def setFile(self, fileName):
         # Verifica que el archivo sea valido y lo deja seleccionado. Caso contrario informa al usuario
@@ -63,7 +63,7 @@ class MainWindowUIClass(Ui_MainWindow):
         self.trainingLineEdit.setText(fileName)
         self.model.setFileName(fileName)
         self.model.setProblem(problem)
-        self.classifyFrame.setEnabled(True)
+        self.buildTreeFrame.setEnabled(True)
 
     ''' Slots '''
     def confirmSlot(self):
