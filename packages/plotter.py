@@ -46,4 +46,4 @@ def partitionPlot(tree, axx, axy, xmin, xmax, ymin, ymax):
         if attribute == axy:
             plt.hlines(y = tree.cargo.limit, xmin = xmin, xmax = xmax)
             partitionPlot(left, axx, axy, xmin, xmax, ymin, tree.cargo.limit)
-            partitionPlot(right, axx, axy, xmin, ymax, tree.cargo.limit, ymax)
+            partitionPlot(right, axx, axy, xmin, xmax, tree.cargo.limit, ymax)
