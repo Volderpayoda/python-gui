@@ -1,7 +1,7 @@
 # MyApp.py
 # D. Thiebaut
 from PyQt5 import QtCore, QtGui, QtWidgets
-from PyQt5.QtCore import QObject, pyqtSlot
+# from PyQt5.QtCore import QObject, pyqtSlot
 from views.mainwindow import Ui_MainWindow
 from models.model import Model
 from packages.importer import *
@@ -33,7 +33,7 @@ class MainWindowUIClass(Ui_MainWindow):
         self.thresholdEdit.setFixedWidth(65)
         # Conexión de eventos con funciones
         self.browseButton.clicked.connect(self.browseSlot)
-        self.classifyButton.clicked.connect(self.classifySlot)
+        self.buildTreeButton.clicked.connect(self.buildTreeSlot)
         self.confirmButton.clicked.connect(self.confirmSlot)
         self.discardButton.clicked.connect(self.discardSlot)
 
@@ -51,7 +51,11 @@ class MainWindowUIClass(Ui_MainWindow):
         if not self.model.isCsv(fileName):
             self.warningBox('El archivo seleccionado no es de tipo CSV.')
             return
-        problem = import_csv(fileName)
+        try:
+            problem = import_csv(fileName)
+        except:
+            self.warningBox('El archivo seleccionado no existe o no se puede acceder.')
+            return
         if not self.model.isValidProblem(problem):
             self.warningBox('El conjunto de datos seleccionado debe contener solo 2 atributos.')
             return
@@ -103,7 +107,7 @@ class MainWindowUIClass(Ui_MainWindow):
         else:
             self.debugPrint("No se seleccionó ningún archivo")
     
-    def classifySlot(self):
+    def buildTreeSlot(self):
         # TODO: En este punto se llamaría al algoritmo de clasificación
         self.debugPrint("Botón clasificar presionado")
         if self.thresholdEdit.text() == '':
