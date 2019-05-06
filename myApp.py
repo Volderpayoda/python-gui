@@ -6,6 +6,7 @@ from views.mainwindow import Ui_MainWindow
 from models.model import Model
 from packages.importer import *
 from packages.c45 import *
+from packages.plotter import *
 import packages.binaryTree as bt
 import sys
 
@@ -111,7 +112,9 @@ class MainWindowUIClass(Ui_MainWindow):
         threshold = float(self.thresholdEdit.text())
         problem = self.model.getProblem()
         tree = decisionTree(problem.data, problem.attributes, problem.classes, problem.classcolumn, bt.BinaryTree(), threshold)
+        plt = plotSolution(problem, tree)
         self.debugPrint(str(tree))
+        plt.show()
 
     ''' Utilidades '''    
     def disableItems(self, items):
@@ -147,4 +150,5 @@ def main():
     MainWindow.show()
     sys.exit(app.exec_())
 
-main()
+if __name__ == '__main__':
+    main()
