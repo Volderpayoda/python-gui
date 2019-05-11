@@ -7,6 +7,7 @@ from models.model import Model
 from packages.importer import *
 from packages.c45 import *
 from packages.plotter import *
+import packages.classifier as cf
 import packages.binaryTree as bt
 import sys
 
@@ -32,16 +33,20 @@ class MainWindowUIClass(Ui_MainWindow):
         self.testPerLabel.setFixedWidth(163)
         self.thresholdEdit.setFixedWidth(65)
         # Conexión de eventos con funciones
-        self.browseButton.clicked.connect(self.browseSlot)
-        self.buildTreeButton.clicked.connect(self.buildTreeSlot)
         self.confirmButton.clicked.connect(self.confirmSlot)
         self.discardButton.clicked.connect(self.discardSlot)
+        self.browseButton.clicked.connect(self.browseSlot)
+        self.buildTreeButton.clicked.connect(self.buildTreeSlot)
+        self.classificationButton.clicked.connect(self.classificationSlot)
+        self.plotDataButton.clicked.connect(self.plotDataSlot)
 
         # Inicializar elementos de la interfaz.
         doubleValidator = QtGui.QDoubleValidator(decimals = 2)
         self.testPerEdit.setValidator(doubleValidator)
         self.thresholdEdit.setValidator(doubleValidator)
-        self.disableItems([self.discardButton, self.fileBrowserFrame, self.thresholdFrame, self.buildTreeFrame])
+        self.disableItems([self.discardButton, self.fileBrowserFrame, self.thresholdFrame, self.buildTreeFrame, self.treeOptionsFrame])
+        self.thresholdEdit.setToolTip('Umbral de ganancia de información')
+        self.classificationButton.setToolTip('Ingrese dos atributos para la predicción')
 
     def setFile(self, fileName):
         # Verifica que el archivo sea valido y lo deja seleccionado. Caso contrario informa al usuario
@@ -96,7 +101,7 @@ class MainWindowUIClass(Ui_MainWindow):
         # Llamado cuando el usuario presiona el Botón Descartar
         self.debugPrint('Botón descartar presionado')
         self.enableItems([self.confirmButton, self.configurationFrame])
-        self.disableItems([self.fileBrowserFrame, self.discardButton])
+        self.disableItems([self.fileBrowserFrame, self.discardButton, self.thresholdFrame])
     
     def browseSlot(self):
         # Llamado cuando el usuario presiona el Boton Examinar
@@ -116,8 +121,22 @@ class MainWindowUIClass(Ui_MainWindow):
         threshold = float(self.thresholdEdit.text())
         problem = self.model.getProblem()
         tree = decisionTree(problem.data, problem.attributes, problem.classes, problem.classcolumn, bt.BinaryTree(), threshold)
-        plt = plotSolution(problem, tree)
-        self.debugPrint(str(tree))
+        # plt = plotSolution(problem, tree)
+        self.model.tree = tree
+        self.enableItems([self.treeOptionsFrame])
+        self.debugPrint(str(self.model.tree))
+        # plt.show()
+
+    def classificationSlot(self):
+        # data = [[atributo1, valor1], [atributo2, valor2]]
+        data = [4.3, 3]
+        classifier = cf.Classifier(self.model.problem.attributes)
+        prediction = classifier.classifyData(self.model.tree, data)
+        self.infoBox('Los valores introducidos pertenecen a la clase: ' + prediction)
+
+    def plotDataSlot(self):
+        plt = plotSolution(self.model.problem, self.model.tree)
+        plt.title('Visualización de datos')
         plt.show()
 
     ''' Utilidades '''    
@@ -136,6 +155,14 @@ class MainWindowUIClass(Ui_MainWindow):
         msg.setIcon(QtWidgets.QMessageBox.Warning)
         msg.setText(text)
         msg.setWindowTitle('Advertencia')
+        msg.setStandardButtons(QtWidgets.QMessageBox.Ok)
+        msg.exec()
+
+    def infoBox(self, text):
+        msg = QtWidgets.QMessageBox()
+        msg.setIcon(QtWidgets.QMessageBox.Information)
+        msg.setText(text)
+        msg.setWindowTitle('Resultado')
         msg.setStandardButtons(QtWidgets.QMessageBox.Ok)
         msg.exec()
 
