@@ -6,6 +6,7 @@ class Model:
         # Constructor del modelo, pone el nombre del archivo en nulo
         self.fileName = None
         self.problem = None
+        self.tree = None
 
     def isValid(self, fileName):
         if not isValidFile(fileName):
