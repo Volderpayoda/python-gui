@@ -173,9 +173,9 @@
     <property name="geometry">
      <rect>
       <x>10</x>
-      <y>330</y>
+      <y>380</y>
       <width>599</width>
-      <height>191</height>
+      <height>141</height>
      </rect>
     </property>
    </widget>
@@ -254,7 +254,7 @@
       <x>10</x>
       <y>230</y>
       <width>601</width>
-      <height>22</height>
+      <height>71</height>
      </rect>
     </property>
     <property name="frameShape">
@@ -263,38 +263,80 @@
     <property name="frameShadow">
      <enum>QFrame::Raised</enum>
     </property>
-    <widget class="QWidget" name="layoutWidget">
+    <widget class="QWidget" name="">
      <property name="geometry">
       <rect>
        <x>0</x>
        <y>0</y>
        <width>601</width>
-       <height>22</height>
+       <height>71</height>
       </rect>
      </property>
-     <layout class="QHBoxLayout" name="thresholdLayout">
+     <layout class="QVBoxLayout" name="verticalLayout">
       <item>
-       <widget class="QLabel" name="thresholdLabel">
+       <layout class="QHBoxLayout" name="thresholdLayout">
+        <item>
+         <widget class="QLabel" name="thresholdLabel">
+          <property name="text">
+           <string>Umbral del modelo:</string>
+          </property>
+         </widget>
+        </item>
+        <item>
+         <widget class="QLineEdit" name="thresholdEdit"/>
+        </item>
+        <item>
+         <spacer name="horizontalSpacer_5">
+          <property name="orientation">
+           <enum>Qt::Horizontal</enum>
+          </property>
+          <property name="sizeHint" stdset="0">
+           <size>
+            <width>40</width>
+            <height>20</height>
+           </size>
+          </property>
+         </spacer>
+        </item>
+       </layout>
+      </item>
+      <item>
+       <widget class="QLabel" name="label">
         <property name="text">
-         <string>Umbral del modelo:</string>
+         <string>Función de ganancia:</string>
         </property>
        </widget>
       </item>
       <item>
-       <widget class="QLineEdit" name="thresholdEdit"/>
-      </item>
-      <item>
-       <spacer name="horizontalSpacer_5">
-        <property name="orientation">
-         <enum>Qt::Horizontal</enum>
-        </property>
-        <property name="sizeHint" stdset="0">
-         <size>
-          <width>40</width>
-          <height>20</height>
-         </size>
-        </property>
-       </spacer>
+       <layout class="QHBoxLayout" name="horizontalLayout_3">
+        <item>
+         <widget class="QRadioButton" name="gainRadioButton">
+          <property name="text">
+           <string>Ganacia de información</string>
+          </property>
+         </widget>
+        </item>
+        <item>
+         <widget class="QRadioButton" name="gainRatioRadioButton">
+          <property name="text">
+           <string>Tasa de ganancia de información</string>
+          </property>
+         </widget>
+        </item>
+        <item>
+         <spacer name="horizontalSpacer_8">
+          <property name="orientation">
+           <enum>Qt::Horizontal</enum>
+          </property>
+          <property name="sizeHint" stdset="0">
+           <size>
+            <width>40</width>
+            <height>20</height>
+           </size>
+          </property>
+         </spacer>
+        </item>
+       </layout>
       </item>
      </layout>
     </widget>
@@ -342,7 +384,7 @@
     <property name="geometry">
      <rect>
       <x>10</x>
-      <y>260</y>
+      <y>320</y>
       <width>601</width>
       <height>25</height>
      </rect>
@@ -389,24 +431,11 @@
      </layout>
     </widget>
    </widget>
-   <widget class="Line" name="line_2">
-    <property name="geometry">
-     <rect>
-      <x>10</x>
-      <y>290</y>
-      <width>601</width>
-      <height>16</height>
-     </rect>
-    </property>
-    <property name="orientation">
-     <enum>Qt::Horizontal</enum>
-    </property>
-   </widget>
    <widget class="QFrame" name="treeOptionsFrame">
     <property name="geometry">
      <rect>
       <x>10</x>
-      <y>300</y>
+      <y>350</y>
       <width>601</width>
       <height>25</height>
      </rect>
@@ -417,7 +446,7 @@
     <property name="frameShadow">
      <enum>QFrame::Raised</enum>
     </property>
-    <widget class="QWidget" name="">
+    <widget class="QWidget" name="layoutWidget">
      <property name="geometry">
       <rect>
        <x>0</x>
@@ -441,9 +470,12 @@
        </spacer>
       </item>
       <item>
-       <widget class="QPushButton" name="pushButton_3">
+       <widget class="QPushButton" name="classificationButton">
+        <property name="toolTip">
+         <string/>
+        </property>
         <property name="text">
-         <string>PushButton</string>
+         <string>Clasificar dato</string>
         </property>
        </widget>
       </item>
@@ -455,7 +487,7 @@
        </widget>
       </item>
       <item>
-       <widget class="QPushButton" name="pushButton">
+       <widget class="QPushButton" name="plotDataButton">
         <property name="text">
          <string>Graficar datos</string>
         </property>
@@ -464,6 +496,15 @@
      </layout>
     </widget>
    </widget>
+   <zorder>configurationFrame</zorder>
+   <zorder>debugTextBrowser</zorder>
+   <zorder>fileBrowserFrame</zorder>
+   <zorder>thresholdFrame</zorder>
+   <zorder>layoutWidget</zorder>
+   <zorder>buildTreeFrame</zorder>
+   <zorder>treeOptionsFrame</zorder>
+   <zorder>horizontalSpacer_6</zorder>
+   <zorder>layoutWidget</zorder>
   </widget>
  </widget>
  <resources/>
