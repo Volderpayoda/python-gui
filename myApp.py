@@ -57,7 +57,7 @@ class MainWindowUIClass(Ui_MainWindow):
             self.warningBox('El archivo seleccionado no es de tipo CSV.')
             return
         try:
-            problem = import_csv(fileName)
+            problem = import_csv(path = fileName, sep = self.separator, lineterminator = self.lineTerminator)
         except:
             self.warningBox('El archivo seleccionado no existe o no se puede acceder.')
             return
