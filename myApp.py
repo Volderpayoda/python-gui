@@ -45,6 +45,7 @@ class MainWindowUIClass(Ui_MainWindow):
         self.testPerEdit.setValidator(doubleValidator)
         self.thresholdEdit.setValidator(doubleValidator)
         self.disableItems([self.discardButton, self.fileBrowserFrame, self.thresholdFrame, self.buildTreeFrame, self.treeOptionsFrame])
+        self.gainRadioButton.setChecked(True)
         self.thresholdEdit.setToolTip('Umbral de ganancia de información')
         self.classificationButton.setToolTip('Ingrese dos atributos para la predicción')
 
