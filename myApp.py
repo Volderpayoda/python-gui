@@ -139,6 +139,7 @@ class MainWindowUIClass(Ui_MainWindow):
                 data[1] = float(data[1])
             except:
                 self.warningBox('El formato de los datos introducidos es inválido')
+                return
             if len(data) != 2:
                 self.warningBox('Se deben introducir solamente dos parámetros separados por una coma')
                 return
