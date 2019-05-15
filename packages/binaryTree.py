@@ -24,6 +24,7 @@ class Cargo:
             str = str + "confidence: {0}/{1}".format(self.confidence[0], self.confidence[1])
         return str
 
+
 class BinaryTree:
     def __init__(self, cargo = Cargo(), left = None, right = None):
         self.cargo = cargo
@@ -42,7 +43,16 @@ class BinaryTree:
         if self.right is not None:
             text = text + '\n' + sep + self.right.show(sep = sep.rjust(len(sep) + 2))
         return text
+
+    def stringTree(self, level = 0):
+        string = '\t' * level + str(self.cargo) + '\n'
+        if self.left is not None:
+            string = string + self.left.stringTree(level = level + 1)
+        if self.right is not None:
+            string = string + self.right.stringTree(level = level + 1)
+        return string
         
 if __name__ == "__main__":
     tree = BinaryTree(1, BinaryTree(2, BinaryTree(3)), BinaryTree(4, BinaryTree(5), BinaryTree(6)))
     print(tree)
+    print(tree.stringTree())
