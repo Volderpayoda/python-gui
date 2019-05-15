@@ -99,13 +99,13 @@ class MainWindowUIClass(Ui_MainWindow):
     
     def discardSlot(self):
         # Llamado cuando el usuario presiona el Botón Descartar
-        self.debugPrint('Botón descartar presionado')
+        self.debugPrint('Botón Descartar presionado')
         self.enableItems([self.confirmButton, self.configurationFrame])
         self.disableItems([self.fileBrowserFrame, self.discardButton, self.thresholdFrame])
     
     def browseSlot(self):
         # Llamado cuando el usuario presiona el Boton Examinar
-        self.debugPrint('Botón examinar presionado')
+        self.debugPrint('Botón Examinar presionado')
         fileName, _ = QtWidgets.QFileDialog.getOpenFileName()
         if fileName: 
             self.setFile(fileName)
@@ -114,7 +114,7 @@ class MainWindowUIClass(Ui_MainWindow):
     
     def buildTreeSlot(self):
         # TODO: En este punto se llamaría al algoritmo de clasificación
-        self.debugPrint("Botón clasificar presionado")
+        self.debugPrint("Botón Construir árbol presionado")
         if self.thresholdEdit.text() == '':
             self.warningBox('Debe ingresar un valor de umbral para la clasificación.')
             return
@@ -128,11 +128,22 @@ class MainWindowUIClass(Ui_MainWindow):
         # plt.show()
 
     def classificationSlot(self):
-        # data = [[atributo1, valor1], [atributo2, valor2]]
-        data = [4.3, 3]
-        classifier = cf.Classifier(self.model.problem.attributes)
-        prediction = classifier.classifyData(self.model.tree, data)
-        self.infoBox('Los valores introducidos pertenecen a la clase: ' + prediction)
+        self.debugPrint('Botón Clasificar presionado')
+        item, ok = QtWidgets.QInputDialog.getText(QtWidgets.QWidget(), 'Clasificar', 'Ingrese el dato a clasificar\nFormato: atributo1, atributo2')
+        if ok:
+            item.replace(' ', '')
+            data = item.split(',')
+            try:
+                data[0] = float(data[0])
+                data[1] = float(data[1])
+            except:
+                self.warningBox('El formato de los datos introducidos es inválido')
+            if len(data) != 2:
+                self.warningBox('Se deben introducir solamente dos parámetros separados por una coma')
+                return
+            classifier = cf.Classifier(self.model.problem.attributes)
+            prediction = classifier.classifyData(self.model.tree, data)
+            self.infoBox('Los valores introducidos pertenecen a la clase: ' + prediction)
 
     def plotDataSlot(self):
         plt = plotSolution(self.model.problem, self.model.tree)
