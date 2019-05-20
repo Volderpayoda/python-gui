@@ -7,9 +7,11 @@ from models.model import Model
 from packages.importer import *
 from packages.c45 import *
 from packages.plotter import *
+from packages.treePlotter import *
 import packages.classifier as cf
 import packages.binaryTree as bt
 import sys
+import webbrowser
 
 class MainWindowUIClass(Ui_MainWindow):
     def __init__(self):
@@ -39,6 +41,7 @@ class MainWindowUIClass(Ui_MainWindow):
         self.buildTreeButton.clicked.connect(self.buildTreeSlot)
         self.classificationButton.clicked.connect(self.classificationSlot)
         self.plotDataButton.clicked.connect(self.plotDataSlot)
+        self.plotTreeButton.clicked.connect(self.plotTreeSlot)
 
         # Inicializar elementos de la interfaz.
         doubleValidator = QtGui.QDoubleValidator(decimals = 2)
@@ -151,6 +154,10 @@ class MainWindowUIClass(Ui_MainWindow):
         plt = plotSolution(self.model.problem, self.model.tree)
         plt.title('Visualización de datos')
         plt.show()
+    
+    def plotTreeSlot(self):
+        filePath = plotTree(self.model.tree.toJson())
+        webbrowser.open(filePath)
 
     ''' Utilidades '''    
     def disableItems(self, items):
