@@ -263,7 +263,7 @@
     <property name="frameShadow">
      <enum>QFrame::Raised</enum>
     </property>
-    <widget class="QWidget" name="">
+    <widget class="QWidget" name="layoutWidget">
      <property name="geometry">
       <rect>
        <x>0</x>
@@ -480,7 +480,7 @@
        </widget>
       </item>
       <item>
-       <widget class="QPushButton" name="pushButton_2">
+       <widget class="QPushButton" name="plotTreeButton">
         <property name="text">
          <string>Graficar árbol</string>
         </property>
@@ -500,10 +500,8 @@
    <zorder>debugTextBrowser</zorder>
    <zorder>fileBrowserFrame</zorder>
    <zorder>thresholdFrame</zorder>
-   <zorder>layoutWidget</zorder>
    <zorder>buildTreeFrame</zorder>
    <zorder>treeOptionsFrame</zorder>
-   <zorder>horizontalSpacer_6</zorder>
    <zorder>layoutWidget</zorder>
   </widget>
  </widget>
