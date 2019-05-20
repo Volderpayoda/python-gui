@@ -28,9 +28,9 @@ class Cargo:
     
     def toString(self):
         if self.type == 'decision':
-            return self.value + ':' + str(self.limit)
+            return self.value + ' : ' + str(self.limit)
         if self.type == 'leaf':
-            return self.value + ':' + str(self.confidence[0]) + '/' + str(self.confidence[1])
+            return self.value + ' : ' + str(self.confidence[0]) + '/' + str(self.confidence[1])
 
 
 class BinaryTree:
