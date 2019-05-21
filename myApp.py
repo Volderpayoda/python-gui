@@ -12,6 +12,7 @@ import packages.classifier as cf
 import packages.binaryTree as bt
 import sys
 import webbrowser
+import os
 
 class MainWindowUIClass(Ui_MainWindow):
     def __init__(self):
@@ -122,8 +123,9 @@ class MainWindowUIClass(Ui_MainWindow):
         if self.thresholdEdit.text() == '':
             self.warningBox('Debe ingresar un valor de umbral para la clasificación.')
             return
-        threshold = float(self.thresholdEdit.text())
+        self.model.threshold = float(self.thresholdEdit.text())
         problem = self.model.getProblem()
+        threshold = self.model.threshold
         tree = decisionTree(problem.data, problem.attributes, problem.classes, problem.classcolumn, bt.BinaryTree(), threshold)
         # plt = plotSolution(problem, tree)
         self.model.tree = tree
@@ -192,6 +194,8 @@ class MainWindowUIClass(Ui_MainWindow):
 
 def main():
     # El punto de entrada del programa
+    # Limpiar archivos temporales de ejecuciones anteriores
+    # Iniciar la aplicación
     app = QtWidgets.QApplication(sys.argv)
     MainWindow = QtWidgets.QMainWindow()
     ui = MainWindowUIClass()
