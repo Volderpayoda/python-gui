@@ -7,6 +7,7 @@ class Model:
         self.fileName = None
         self.problem = None
         self.tree = None
+        self.threshold = None
 
     def isValid(self, fileName):
         if not isValidFile(fileName):
