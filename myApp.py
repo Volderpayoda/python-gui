@@ -8,6 +8,7 @@ from packages.importer import *
 from packages.c45 import *
 from packages.plotter import *
 from packages.treePlotter import *
+from packages.worker import *
 import packages.classifier as cf
 import packages.binaryTree as bt
 import sys
@@ -21,6 +22,7 @@ class MainWindowUIClass(Ui_MainWindow):
         super().__init__()
         # Incializar los modelos
         self.model = Model()
+        self.threadPool = QtCore.QThreadPool()
         
     def setupUi(self, MW):
         # Se configura la interfaz gráfica y se adhiere la funcionalidad
@@ -117,20 +119,35 @@ class MainWindowUIClass(Ui_MainWindow):
             self.debugPrint("No se seleccionó ningún archivo")
     
     def buildTreeSlot(self):
-        # TODO: En este punto se llamaría al algoritmo de clasificación
         self.debugPrint("Botón Construir árbol presionado")
+        # Recuperar valor de umbral
         if self.thresholdEdit.text() == '':
             self.warningBox('Debe ingresar un valor de umbral para la clasificación.')
             return
         self.model.threshold = float(self.thresholdEdit.text())
+        # Recuperar función de ganancia
+        if self.gainRadioButton:
+            self.model.gain = 'gain'
+        if self.gainRatioRadioButton: 
+            self.model.gain = 'gainRatio'
+        # Construir el árbol
         problem = self.model.getProblem()
         threshold = self.model.threshold
-        tree = decisionTree(problem.data, problem.attributes, problem.classes, problem.classcolumn, bt.BinaryTree(), threshold)
-        # plt = plotSolution(problem, tree)
+        gain = self.model.gain
+        # tree = decisionTree(problem.data, problem.attributes, problem.classes, problem.classcolumn, bt.BinaryTree(), threshold)
+        worker = Worker(decisionTree, problem.data, problem.attributes, problem.classes, problem.classcolumn, bt.BinaryTree(), threshold)
+        worker.signals.result.connect(self.treeResultSlot)
+        worker.signals.finished.connect(self.treeFinishedSlot)
+        self.disableItems([self.centralwidget])
+        self.threadPool.start(worker)
+        # Habilitar opciones del árbol
+
+    def treeResultSlot(self, tree):
         self.model.tree = tree
-        self.enableItems([self.treeOptionsFrame])
-        self.debugPrint(str(self.model.tree))
-        # plt.show()
+    
+    def treeFinishedSlot(self):
+        self.enableItems([self.treeOptionsFrame, self.centralwidget])
+        self.debugPrint('Proceso de clasificación finalizado')
 
     def classificationSlot(self):
         self.debugPrint('Botón Clasificar presionado')
