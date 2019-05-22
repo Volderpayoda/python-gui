@@ -195,6 +195,12 @@ class MainWindowUIClass(Ui_MainWindow):
 def main():
     # El punto de entrada del programa
     # Limpiar archivos temporales de ejecuciones anteriores
+    if os.path.exists('./temp'):
+        files = os.listdir('./temp')
+        for f in files:
+            os.remove(os.path.join('./temp', f))
+    else:
+        os.mkdir('./temp')
     # Iniciar la aplicación
     app = QtWidgets.QApplication(sys.argv)
     MainWindow = QtWidgets.QMainWindow()
