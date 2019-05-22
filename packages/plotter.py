@@ -11,6 +11,16 @@ def plotSolution(problem, tree):
     ymin, ymax = getLimits(problem, axy)
     # Realizar el particionado recursivo del conjunto de datos
     partitionPlot(tree, axx, axy, xmin, xmax, ymin, ymax)
+    # Indicar titulo del gráfico
+    plt.title('Visualización de datos')
+    # Indicar nombres de los ejes
+    plt.xlabel(problem.attributes[0])
+    plt.ylabel(problem.attributes[1])
+    # Activar la leyenda del gráfico
+    plt.legend()
+    # Desplazar el gráfico 
+    mngr = plt.get_current_fig_manager()
+    mngr.window.setGeometry(50,100,640, 545)
     # Retornar el gráfico
     return plt
 
@@ -31,7 +41,7 @@ def plotData(problem, tree):
         dataTemp = problem.data.loc[problem.data[problem.classcolumn] == c]
         x = dataTemp[problem.attributes[0]]
         y = dataTemp[problem.attributes[1]]
-        plt.scatter(x = x, y = y, marker = 'o', c = [color(i)])
+        plt.scatter(x = x, y = y, marker = 'o', c = [color(i)], label = c)
         i = i + 0.05
 
 def partitionPlot(tree, axx, axy, xmin, xmax, ymin, ymax):
