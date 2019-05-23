@@ -158,7 +158,7 @@ def decisionTree(data, attributes, classes, classcolumn, tree, threshold, gainFu
         if gainFunc == 'gainRatio':
             p = gainRatioCalc(p, data)
         a, val, gain = selectAg(p, gainFunc)
-        if gain < threshold:
+        if gain <= threshold:
             # cj = frequentClass(data, classes, classcolumn)
             leafNode(cj, tree, data, classcolumn)
             return tree
