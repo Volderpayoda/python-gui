@@ -10,7 +10,7 @@ def plotSolution(problem, tree):
     # Realizar el particionado recursivo del conjunto de datos
     partitionPlot(tree, axx, axy, xmin, xmax, ymin, ymax)
     # Ajustar los puntos para que no se corten con la recta
-    # problem = adjustPoints(problem)
+    problem = adjustPoints(problem)
     # Graficar los puntos discriminando por clase
     plotData(problem, tree)
     # Indicar titulo del gráfico
