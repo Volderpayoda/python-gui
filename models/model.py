@@ -8,7 +8,7 @@ class Model:
         self.problem = None
         self.tree = None
         self.threshold = None
-        self.gain = None
+        self.gainFunc = None
 
     def isValid(self, fileName):
         if not isValidFile(fileName):
