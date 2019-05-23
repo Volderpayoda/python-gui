@@ -9,6 +9,8 @@ class Model:
         self.tree = None
         self.threshold = None
         self.gainFunc = None
+        self.testPer = None
+        self.accuracy = None
 
     def isValid(self, fileName):
         if not isValidFile(fileName):
