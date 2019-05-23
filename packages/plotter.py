@@ -45,8 +45,8 @@ def adjustPoints(problem):
     decy = problem.data[axy].apply(lambda x: len(str(x).split('.')[1]))
     decy = decy.max()
     # Calcular valores de desplazamiento
-    despx = 5.0 * (10.0 ** (-(decx + 1)))
-    despy = 5.0 * (10.0 ** (-(decy + 1)))
+    despx = 7.0 * (10.0 ** (-(decx + 1)))
+    despy = 7.0 * (10.0 ** (-(decy + 1)))
     problem.data[axx] = problem.data[axx].apply(lambda x: x - despx)
     problem.data[axy] = problem.data[axy].apply(lambda x: x - despy)
     return problem
