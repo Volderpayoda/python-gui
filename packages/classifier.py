@@ -16,3 +16,20 @@ class Classifier:
                     return self.classifyData(tree.left, data)
                 else:
                     return self.classifyData(tree.right, data)
+    
+    def classifyDataFrame(self, tree, trainData):
+        nTest = (trainData.shape)[0] #calcula la cantidad de filas de d
+        cont = 0
+        i = 0
+        while i < nTest:
+            #seleccion de elementos para partitionD
+            a1 = trainData.iloc[i][0]
+            a2 = trainData.iloc[i][1]
+            c = trainData.iloc[i][2]
+            arr = [a1, a2]
+            output = self.classifyData(tree, arr)
+            if c == output:
+                cont = cont + 1
+            i = i + 1
+        accuracy = cont / nTest
+        return accuracy
