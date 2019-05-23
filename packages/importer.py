@@ -3,7 +3,7 @@ import pandas as pd
 
 class Problem: pass
 
-def import_csv(path, sep = ',', lineterminator = '\n'):
+def import_csv(path, sep = ',', lineterminator = '\n', testPer = 0.2):
     # Obtener el conjunto de datos
     data = pd.read_csv(filepath_or_buffer = path, sep = sep)
 
@@ -19,7 +19,7 @@ def import_csv(path, sep = ',', lineterminator = '\n'):
     attributes = attributes.drop(labels = [attributes[length]])
 
     # Separar los datos en el conjunto de entrenamiento y el conjunto de prueba
-    trainData = data.sample(frac = 0.2)
+    trainData = data.sample(frac = testPer)
     data = data.drop(trainData.index)
 
     # Generar el problema
