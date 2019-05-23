@@ -126,16 +126,16 @@ class MainWindowUIClass(Ui_MainWindow):
             return
         self.model.threshold = float(self.thresholdEdit.text())
         # Recuperar función de ganancia
-        if self.gainRadioButton:
-            self.model.gain = 'gain'
-        if self.gainRatioRadioButton: 
-            self.model.gain = 'gainRatio'
+        if self.gainRadioButton.isChecked():
+            self.model.gainFunc = 'gain'
+        if self.gainRatioRadioButton.isChecked(): 
+            self.model.gainFunc = 'gainRatio'
         # Construir el árbol
         problem = self.model.getProblem()
         threshold = self.model.threshold
-        gain = self.model.gain
+        gainFunc = self.model.gainFunc
         # tree = decisionTree(problem.data, problem.attributes, problem.classes, problem.classcolumn, bt.BinaryTree(), threshold)
-        worker = Worker(decisionTree, problem.data, problem.attributes, problem.classes, problem.classcolumn, bt.BinaryTree(), threshold)
+        worker = Worker(decisionTree, problem.data, problem.attributes, problem.classes, problem.classcolumn, bt.BinaryTree(), threshold, gainFunc)
         worker.signals.result.connect(self.treeResultSlot)
         worker.signals.finished.connect(self.treeFinishedSlot)
         self.disableItems([self.centralwidget])
