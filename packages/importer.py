@@ -18,19 +18,17 @@ def import_csv(path, sep = ',', lineterminator = '\n'):
     # Eliminar la columna de clase de la lista de atributos
     attributes = attributes.drop(labels = [attributes[length]])
 
+    # Separar los datos en el conjunto de entrenamiento y el conjunto de prueba
+    trainData = data.sample(frac = 0.2)
+    data = data.drop(trainData.index)
+
+    # Generar el problema
     problem = Problem()
     problem.data = data
+    problem.trainData = trainData
     problem.attributes = attributes
     problem.classcolumn = classcolumn
     problem.classes = classes
     return problem
-'''
-    problem = {
-        "data": data,
-        "attributes": attributes,
-        "classcolumn": classcolumn,
-        "classes": classes
-    }
-'''
 
     
