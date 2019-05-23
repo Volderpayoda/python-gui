@@ -2,8 +2,6 @@ import matplotlib.cm as cm
 import matplotlib.pyplot as plt
 
 def plotSolution(problem, tree):
-    # Graficar los puntos discriminando por clase
-    plotData(problem, tree)
     # Obtener los nombres de los atributos
     axx, axy = getAxis(problem)
     # Obtener mínimox y máximos de cada columna atributo 
@@ -11,6 +9,10 @@ def plotSolution(problem, tree):
     ymin, ymax = getLimits(problem, axy)
     # Realizar el particionado recursivo del conjunto de datos
     partitionPlot(tree, axx, axy, xmin, xmax, ymin, ymax)
+    # Ajustar los puntos para que no se corten con la recta
+    # problem = adjustPoints(problem)
+    # Graficar los puntos discriminando por clase
+    plotData(problem, tree)
     # Indicar titulo del gráfico
     plt.title('Visualización de datos')
     # Indicar nombres de los ejes
@@ -33,6 +35,21 @@ def getLimits(problem, axis):
     min = problem.data[axis].min()
     max = problem.data[axis].max()
     return min, max
+
+def adjustPoints(problem):
+    axx, axy = getAxis(problem)
+    # Calcular la cantidad de decimales en X
+    decx = problem.data[axx].apply(lambda x: len(str(x).split('.')[1]))
+    decx = decx.max()
+    # Calcular la cantidad de decimales en Y
+    decy = problem.data[axy].apply(lambda x: len(str(x).split('.')[1]))
+    decy = decy.max()
+    # Calcular valores de desplazamiento
+    despx = 5.0 * (10.0 ** (-(decx + 1)))
+    despy = 5.0 * (10.0 ** (-(decy + 1)))
+    problem.data[axx] = problem.data[axx].apply(lambda x: x - despx)
+    problem.data[axy] = problem.data[axy].apply(lambda x: x - despy)
+    return problem
 
 def plotData(problem, tree):
     color = cm.get_cmap(name = 'tab20')
