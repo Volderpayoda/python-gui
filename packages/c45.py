@@ -40,14 +40,57 @@ def impurityEval2(data, a, classcolumn, val):
     # Retorna la impureza total
     return imp
 
-def gain(p0, p1):
-    return p0 - p1
+def gainCalc(p0, p):
+    p['gain'] = p['impurity'].apply(lambda x: p0 - x)
+    return p
 
-# def gainRatio(p0, p1):
-   
-def selectAg(p):
+def gainRatioCalc(p, data):
+    d = (data.shape)[0] #calcula la cantidad de filas de d
+    aux = []
+    i = 0
+
+    while i < (p.shape)[0]:
+        #seleccion de elementos para partitionD
+        a = p.loc[i][0] #seleccion del atributo
+        v = p.loc[i][1] #seleccion del valor
+        g = p.loc[i][3] #seleccion de la ganancia de información
+
+        #llamado a partitionD
+        d1,d2 = partitionD(data, a, v)
+
+        #calculo de tamaño de particiones
+        shapeD1 = (d1.shape)[0]
+        shapeD2 = (d2.shape)[0]
+
+        # Calcular la primera parte del denominador  
+        if shapeD1 == 0: 
+            den1 = 0
+        else:
+            den1 = ((shapeD1)/d)*math.log((shapeD1/d),2)
+
+        # Calcular la segunda parte del denominador
+
+        if shapeD2 == 0:
+            den2 = 0
+        else:
+            den2 = ((shapeD2)/d)*math.log((shapeD2/d),2)
+
+        #calcular el gainRatio
+        if g == 0:
+            gainRatio = 0
+        else:
+            gainRatio = g/(-(den1+den2))
+
+        i +=1
+        aux.append(gainRatio)  
+    npaux = np.array(aux)
+    p['gainRatio'] = npaux
+    return p 
+
+def selectAg(p, gainFunc):
+    p = p.sort_values([gainFunc,'attribute'], ascending = [0,1])
     Ag = p.iloc[0]
-    return Ag['attribute'], Ag['value'], Ag['impurity']
+    return Ag['attribute'], Ag['value'], Ag['gain']
 
 def leafNode(cj, tree, data, classcolumn):
     tree.cargo = bt.Cargo()
@@ -95,7 +138,7 @@ def sameClassC(data, classcolumn):
         return True
     return False
     
-def decisionTree(data, attributes, classes, classcolumn, tree, threshold):
+def decisionTree(data, attributes, classes, classcolumn, tree, threshold, gainFunc):
     # Calcula la clase más frequente
     cj = frequentClass(data, classcolumn)
     # Evaluamos para los casos base
@@ -110,8 +153,12 @@ def decisionTree(data, attributes, classes, classcolumn, tree, threshold):
         p0 = impurityEval1(data, classcolumn)
         # Calculamos las entropías para todas las particiones posibles de cada atributo
         p = impurityCalc(data, attributes, classcolumn)
-        a, val, imp = selectAg(p)
-        if (p0 - imp) < threshold:
+        # Calculamos la ganancia y la tasa de ganancia para todas las particiones posibles de cada atributo
+        p = gainCalc(p0, p)
+        if gainFunc == 'gainRatio':
+            p = gainRatioCalc(p, data)
+        a, val, gain = selectAg(p, gainFunc)
+        if gain < threshold:
             # cj = frequentClass(data, classes, classcolumn)
             leafNode(cj, tree, data, classcolumn)
             return tree
@@ -121,8 +168,8 @@ def decisionTree(data, attributes, classes, classcolumn, tree, threshold):
             data1, data2 = partitionD(data, a, val)
             if data1.shape[0] != 0:
                 # createBranch(a)
-                tree.left = decisionTree(data1, attributes, classes, classcolumn, bt.BinaryTree(), threshold)
+                tree.left = decisionTree(data1, attributes, classes, classcolumn, bt.BinaryTree(), threshold, gainFunc)
             if data2.shape[0] != 0:
                 # createBranch(a)
-                tree.right = decisionTree(data2, attributes, classes, classcolumn, bt.BinaryTree(), threshold)
+                tree.right = decisionTree(data2, attributes, classes, classcolumn, bt.BinaryTree(), threshold, gainFunc)
     return tree
