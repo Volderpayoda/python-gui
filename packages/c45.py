@@ -51,9 +51,9 @@ def gainRatioCalc(p, data):
 
     while i < (p.shape)[0]:
         #seleccion de elementos para partitionD
-        a = p.loc[i][0] #seleccion del atributo
-        v = p.loc[i][1] #seleccion del valor
-        g = p.loc[i][3] #seleccion de la ganancia de información
+        a = p.iloc[i][0] #seleccion del atributo
+        v = p.iloc[i][1] #seleccion del valor
+        g = p.iloc[i][3] #seleccion de la ganancia de información
 
         #llamado a partitionD
         d1,d2 = partitionD(data, a, v)
