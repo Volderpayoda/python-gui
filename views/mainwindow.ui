@@ -10,7 +10,7 @@
     <x>0</x>
     <y>0</y>
     <width>620</width>
-    <height>533</height>
+    <height>579</height>
    </rect>
   </property>
   <property name="sizePolicy">
@@ -173,9 +173,9 @@
     <property name="geometry">
      <rect>
       <x>10</x>
-      <y>380</y>
+      <y>390</y>
       <width>599</width>
-      <height>141</height>
+      <height>181</height>
      </rect>
     </property>
    </widget>
@@ -183,9 +183,9 @@
     <property name="geometry">
      <rect>
       <x>10</x>
-      <y>180</y>
+      <y>170</y>
       <width>601</width>
-      <height>36</height>
+      <height>65</height>
      </rect>
     </property>
     <property name="frameShape">
@@ -200,10 +200,22 @@
        <x>0</x>
        <y>0</y>
        <width>601</width>
-       <height>36</height>
+       <height>65</height>
       </rect>
      </property>
      <layout class="QVBoxLayout" name="fileBrowserLayout">
+      <item>
+       <widget class="QLabel" name="title_2">
+        <property name="font">
+         <font>
+          <pointsize>14</pointsize>
+         </font>
+        </property>
+        <property name="text">
+         <string>Paramétros del modelo</string>
+        </property>
+       </widget>
+      </item>
       <item>
        <widget class="Line" name="line">
         <property name="orientation">
@@ -252,7 +264,7 @@
     <property name="geometry">
      <rect>
       <x>10</x>
-      <y>230</y>
+      <y>240</y>
       <width>601</width>
       <height>71</height>
      </rect>
