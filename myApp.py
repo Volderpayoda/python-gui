@@ -148,6 +148,7 @@ class MainWindowUIClass(Ui_MainWindow):
     def treeFinishedSlot(self):
         self.enableItems([self.treeOptionsFrame, self.centralwidget])
         self.debugPrint('Proceso de clasificación finalizado')
+        self.debugPrint('Iniciando cálculo de precisión')
 
     def classificationSlot(self):
         self.debugPrint('Botón Clasificar presionado')
