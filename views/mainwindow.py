@@ -12,7 +12,7 @@ class Ui_MainWindow(object):
     def setupUi(self, MainWindow):
         MainWindow.setObjectName("MainWindow")
         MainWindow.setEnabled(True)
-        MainWindow.resize(620, 579)
+        MainWindow.resize(620, 603)
         sizePolicy = QtWidgets.QSizePolicy(QtWidgets.QSizePolicy.Fixed, QtWidgets.QSizePolicy.Fixed)
         sizePolicy.setHorizontalStretch(0)
         sizePolicy.setVerticalStretch(0)
@@ -85,7 +85,7 @@ class Ui_MainWindow(object):
         self.testPercentajeLayout.addItem(spacerItem2)
         self.configuration.addLayout(self.testPercentajeLayout)
         self.debugTextBrowser = QtWidgets.QTextBrowser(self.centralwidget)
-        self.debugTextBrowser.setGeometry(QtCore.QRect(10, 390, 599, 181))
+        self.debugTextBrowser.setGeometry(QtCore.QRect(10, 390, 599, 201))
         self.debugTextBrowser.setObjectName("debugTextBrowser")
         self.fileBrowserFrame = QtWidgets.QFrame(self.centralwidget)
         self.fileBrowserFrame.setGeometry(QtCore.QRect(10, 170, 601, 65))
