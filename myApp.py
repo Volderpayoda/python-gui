@@ -63,7 +63,7 @@ class MainWindowUIClass(Ui_MainWindow):
             self.warningBox('El archivo seleccionado no es de tipo CSV.')
             return
         try:
-            problem = import_csv(path = fileName, sep = self.separator, lineterminator = self.lineTerminator)
+            problem = import_csv(path = fileName, sep = self.separator, lineterminator = self.lineTerminator, testPer = self.testPer)
         except:
             self.warningBox('El archivo seleccionado no existe o no se puede acceder.')
             return
@@ -74,7 +74,12 @@ class MainWindowUIClass(Ui_MainWindow):
         self.trainingLineEdit.setText(fileName)
         self.model.setFileName(fileName)
         self.model.setProblem(problem)
+        self.treeOptionsFrame.setEnabled(False)
         self.buildTreeFrame.setEnabled(True)
+        # Reiniciar los valores del modelo
+        self.model.tree = None
+        self.model.accuracy = None
+
 
     ''' Slots '''
     def confirmSlot(self):
@@ -84,8 +89,11 @@ class MainWindowUIClass(Ui_MainWindow):
         if self.testPerEdit.text() == '':
             self.warningBox('Debe indicar un porcentaje de elementos que serán usados para la prueba')
             return
-        else:
-            self.testPer = self.testPerEdit.text()
+        self.testPer = float(self.testPerEdit.text())
+        if self.testPer <= 0 or self.testPer >= 1:
+            self.warningBox('El porcentaje de elementos para prueba debe ser un valor comprendido mayor que 0 y menor que 1')
+            return
+        self.model.testPer = self.testPer
         # Asigna los valores para el separador y el fin de línea 
         if self.separatorEdit.text() == '':
             self.separator = ','
@@ -146,9 +154,21 @@ class MainWindowUIClass(Ui_MainWindow):
         self.model.tree = tree
     
     def treeFinishedSlot(self):
-        self.enableItems([self.treeOptionsFrame, self.centralwidget])
-        self.debugPrint('Proceso de clasificación finalizado')
+        self.debugPrint('Proceso de construcción finalizado')
         self.debugPrint('Iniciando cálculo de precisión')
+        classifier = cf.Classifier(self.model.problem.attributes)
+        worker = Worker(classifier.classifyDataFrame, self.model.tree, self.model.problem.trainData)
+        worker.signals.result.connect(self.accuracyResultSlot)
+        worker.signals.result.connect(self.accuracyFinishedSlot)
+        self.threadPool.start(worker)
+
+    def accuracyResultSlot(self, acc):
+        self.model.accuracy = acc
+
+    def accuracyFinishedSlot(self):
+        self.debugPrint('Cálculo de la precisión finalizado')
+        self.infoBox('Se ha terminado la construcción del modelo.\nLa precisión es: ' + str(self.model.accuracy * 100) + '%')
+        self.enableItems([self.treeOptionsFrame, self.centralwidget])
 
     def classificationSlot(self):
         self.debugPrint('Botón Clasificar presionado')
@@ -167,7 +187,7 @@ class MainWindowUIClass(Ui_MainWindow):
                 return
             classifier = cf.Classifier(self.model.problem.attributes)
             prediction = classifier.classifyData(self.model.tree, data)
-            self.infoBox('Los valores introducidos pertenecen a la clase: ' + prediction)
+            self.infoBox('Los valores introducidos pertenecen a la clase: ' + prediction + '\nPrecisión de la estimación: ' + str(self.model.accuracy * 100) + '%')
 
     def plotDataSlot(self):
         plt = plotSolution(self.model.problem, self.model.tree)
