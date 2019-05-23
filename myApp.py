@@ -47,8 +47,8 @@ class MainWindowUIClass(Ui_MainWindow):
         self.plotTreeButton.clicked.connect(self.plotTreeSlot)
 
         # Inicializar elementos de la interfaz.
-        self.testPerEdit.setValidator(QtGui.QDoubleValidator(decimals = 2))
-        self.thresholdEdit.setValidator(QtGui.QDoubleValidator(decimals = 3))
+        self.testPerEdit.setValidator(QtGui.QDoubleValidator(decimals = 2, bottom = 0, top = 1))
+        self.thresholdEdit.setValidator(QtGui.QDoubleValidator(bottom = 0, top = 1))
         self.disableItems([self.discardButton, self.fileBrowserFrame, self.thresholdFrame, self.buildTreeFrame, self.treeOptionsFrame])
         self.gainRadioButton.setChecked(True)
         self.thresholdEdit.setToolTip('Umbral de ganancia de información')
