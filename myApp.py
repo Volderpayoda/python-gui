@@ -194,7 +194,8 @@ class MainWindowUIClass(Ui_MainWindow):
         plt.show()
     
     def plotTreeSlot(self):
-        filePath = plotTree(self.model.tree.toJson())
+        libPath = '../packages/d3js/d3.v3.min.js'
+        filePath = plotTree(self.model.tree.toJson(), libPath)
         webbrowser.open(filePath)
 
     ''' Utilidades '''    
