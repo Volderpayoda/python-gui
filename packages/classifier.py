@@ -32,4 +32,5 @@ class Classifier:
                 cont = cont + 1
             i = i + 1
         accuracy = cont / nTest
+        accuracy = round(accuracy, 2)
         return accuracy
