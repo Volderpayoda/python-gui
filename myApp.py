@@ -89,7 +89,7 @@ class MainWindowUIClass(Ui_MainWindow):
         if self.testPerEdit.text() == '':
             self.warningBox('Debe indicar un porcentaje de elementos que serán usados para la prueba')
             return
-        self.testPer = float(self.testPerEdit.text())
+        self.testPer = float(self.testPerEdit.text().replace(',', '.'))
         if self.testPer <= 0 or self.testPer >= 1:
             self.warningBox('El porcentaje de elementos para prueba debe ser un valor comprendido mayor que 0 y menor que 1')
             return
@@ -132,7 +132,7 @@ class MainWindowUIClass(Ui_MainWindow):
         if self.thresholdEdit.text() == '':
             self.warningBox('Debe ingresar un valor de umbral para la clasificación.')
             return
-        self.model.threshold = float(self.thresholdEdit.text())
+        self.model.threshold = float(self.thresholdEdit.text().replace(',', '.'))
         # Recuperar función de ganancia
         if self.gainRadioButton.isChecked():
             self.model.gainFunc = 'gain'
@@ -166,7 +166,7 @@ class MainWindowUIClass(Ui_MainWindow):
         self.model.accuracy = acc
 
     def accuracyFinishedSlot(self):
-        self.debugPrint('Cálculo de la precisión finalizado')
+        self.debugPrint('Precisión: ' + str(self.model.accuracy * 100) + '%')
         self.infoBox('Se ha terminado la construcción del modelo.\nLa precisión es: ' + str(self.model.accuracy * 100) + '%')
         self.enableItems([self.treeOptionsFrame, self.centralwidget])
 
