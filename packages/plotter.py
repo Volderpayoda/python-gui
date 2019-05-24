@@ -10,9 +10,9 @@ def plotSolution(problem, tree):
     # Realizar el particionado recursivo del conjunto de datos
     partitionPlot(tree, axx, axy, xmin, xmax, ymin, ymax)
     # Ajustar los puntos para que no se corten con la recta
-    problem = adjustPoints(problem)
+    dataAdjust = adjustPoints(problem)
     # Graficar los puntos discriminando por clase
-    plotData(problem, tree)
+    plotData(problem, tree, dataAdjust)
     # Indicar titulo del gráfico
     plt.title('Visualización de datos')
     # Indicar nombres de los ejes
@@ -37,6 +37,7 @@ def getLimits(problem, axis):
     return min, max
 
 def adjustPoints(problem):
+    dataAdjust = problem.data.copy()
     axx, axy = getAxis(problem)
     # Calcular la cantidad de decimales en X
     decx = problem.data[axx].apply(lambda x: len(str(x).split('.')[1]))
@@ -47,15 +48,15 @@ def adjustPoints(problem):
     # Calcular valores de desplazamiento
     despx = 7.0 * (10.0 ** (-(decx + 1)))
     despy = 7.0 * (10.0 ** (-(decy + 1)))
-    problem.data[axx] = problem.data[axx].apply(lambda x: x - despx)
-    problem.data[axy] = problem.data[axy].apply(lambda x: x - despy)
-    return problem
+    dataAdjust[axx] = problem.data[axx].apply(lambda x: x - despx)
+    dataAdjust[axy] = problem.data[axy].apply(lambda x: x - despy)
+    return dataAdjust
 
-def plotData(problem, tree):
+def plotData(problem, tree, dataAdjust):
     color = cm.get_cmap(name = 'tab20')
     i = 0.0
     for c in problem.classes:
-        dataTemp = problem.data.loc[problem.data[problem.classcolumn] == c]
+        dataTemp = dataAdjust.loc[dataAdjust[problem.classcolumn] == c]
         x = dataTemp[problem.attributes[0]]
         y = dataTemp[problem.attributes[1]]
         plt.scatter(x = x, y = y, marker = 'o', c = [color(i)], label = c)
