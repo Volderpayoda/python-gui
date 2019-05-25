@@ -19,13 +19,13 @@ def import_csv(path, sep = ',', lineterminator = '\n', testPer = 0.2):
     attributes = attributes.drop(labels = [attributes[length]])
 
     # Separar los datos en el conjunto de entrenamiento y el conjunto de prueba
-    trainData = data.sample(frac = testPer)
-    data = data.drop(trainData.index)
+    testData = data.sample(frac = testPer)
+    data = data.drop(testData.index)
 
     # Generar el problema
     problem = Problem()
     problem.data = data
-    problem.trainData = trainData
+    problem.testData = testData
     problem.attributes = attributes
     problem.classcolumn = classcolumn
     problem.classes = classes
