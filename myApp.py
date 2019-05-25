@@ -21,7 +21,6 @@ class MainWindowUIClass(Ui_MainWindow):
         # Inicializar la superclase
         super().__init__()
         # Incializar los modelos
-        self.model = Model()
         self.threadPool = QtCore.QThreadPool()
         
     def setupUi(self, MW):
@@ -55,6 +54,8 @@ class MainWindowUIClass(Ui_MainWindow):
         self.classificationButton.setToolTip('Ingrese dos atributos para la predicción')
 
     def setFile(self, fileName):
+        self.model = Model()
+        self.model.testPer = self.testPer
         # Verifica que el archivo sea valido y lo deja seleccionado. Caso contrario informa al usuario
         if not self.model.isValidFile(fileName):
             self.warningBox('El archivo seleccionado no existe o no se puede acceder.')
@@ -74,12 +75,10 @@ class MainWindowUIClass(Ui_MainWindow):
         self.trainingLineEdit.setText(fileName)
         self.model.setFileName(fileName)
         self.model.setProblem(problem)
+        self.debugPrint('Cantidad de datos para entrenamiento: ' + str(self.model.problem.data.shape[0]))
+        self.debugPrint('Cantidad de datos para prueba: ' + str(self.model.problem.testData.shape[0]))
         self.treeOptionsFrame.setEnabled(False)
         self.buildTreeFrame.setEnabled(True)
-        # Reiniciar los valores del modelo
-        self.model.tree = None
-        self.model.accuracy = None
-
 
     ''' Slots '''
     def confirmSlot(self):
@@ -93,7 +92,6 @@ class MainWindowUIClass(Ui_MainWindow):
         if self.testPer <= 0 or self.testPer >= 1:
             self.warningBox('El porcentaje de elementos para prueba debe ser un valor comprendido mayor que 0 y menor que 1')
             return
-        self.model.testPer = self.testPer
         # Asigna los valores para el separador y el fin de línea 
         if self.separatorEdit.text() == '':
             self.separator = ','
@@ -114,8 +112,10 @@ class MainWindowUIClass(Ui_MainWindow):
     def discardSlot(self):
         # Llamado cuando el usuario presiona el Botón Descartar
         self.debugPrint('Botón Descartar presionado')
+        self.trainingLineEdit.setText('')
         self.enableItems([self.confirmButton, self.configurationFrame])
-        self.disableItems([self.fileBrowserFrame, self.discardButton, self.thresholdFrame])
+        self.disableItems([self.fileBrowserFrame, self.discardButton, self.thresholdFrame, self.treeOptionsFrame, self.buildTreeFrame])
+        self.model = None
     
     def browseSlot(self):
         # Llamado cuando el usuario presiona el Boton Examinar
@@ -157,7 +157,7 @@ class MainWindowUIClass(Ui_MainWindow):
         self.debugPrint('Proceso de construcción finalizado')
         self.debugPrint('Iniciando cálculo de precisión')
         classifier = cf.Classifier(self.model.problem.attributes)
-        worker = Worker(classifier.classifyDataFrame, self.model.tree, self.model.problem.trainData)
+        worker = Worker(classifier.classifyDataFrame, self.model.tree, self.model.problem.testData)
         worker.signals.result.connect(self.accuracyResultSlot)
         worker.signals.result.connect(self.accuracyFinishedSlot)
         self.threadPool.start(worker)
