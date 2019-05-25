@@ -17,15 +17,15 @@ class Classifier:
                 else:
                     return self.classifyData(tree.right, data)
     
-    def classifyDataFrame(self, tree, trainData):
-        nTest = (trainData.shape)[0] #calcula la cantidad de filas de d
+    def classifyDataFrame(self, tree, testData):
+        nTest = (testData.shape)[0] #calcula la cantidad de filas de d
         cont = 0
         i = 0
         while i < nTest:
             #seleccion de elementos para partitionD
-            a1 = trainData.iloc[i][0]
-            a2 = trainData.iloc[i][1]
-            c = trainData.iloc[i][2]
+            a1 = testData.iloc[i][0]
+            a2 = testData.iloc[i][1]
+            c = testData.iloc[i][2]
             arr = [a1, a2]
             output = self.classifyData(tree, arr)
             if c == output:
