@@ -2,6 +2,8 @@ import matplotlib.cm as cm
 import matplotlib.pyplot as plt
 
 def plotSolution(problem, tree):
+    # Reiniciar el gráfica
+    plt.clf()
     # Obtener los nombres de los atributos
     axx, axy = getAxis(problem)
     # Obtener mínimox y máximos de cada columna atributo 
