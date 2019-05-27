@@ -50,7 +50,8 @@ class MainWindowUIClass(Ui_MainWindow):
         self.thresholdEdit.setValidator(QtGui.QDoubleValidator(bottom = 0, top = 1))
         self.disableItems([self.discardButton, self.fileBrowserFrame, self.thresholdFrame, self.buildTreeFrame, self.treeOptionsFrame])
         self.gainRadioButton.setChecked(True)
-        self.thresholdEdit.setToolTip('Umbral de ganancia de información')
+        self.thresholdEdit.setToolTip('Debe ser mayor o igual a cero\nUse "." como separador decimal\nEjemplo: 0.001')
+        self.testPerEdit.setToolTip('Debe ser mayor a 0 y menor que 1\nUse "." como separador decimal\nEjemplo: 0.1')
         self.classificationButton.setToolTip('Ingrese dos atributos para la predicción')
 
     def setFile(self, fileName):
@@ -172,7 +173,7 @@ class MainWindowUIClass(Ui_MainWindow):
 
     def classificationSlot(self):
         self.debugPrint('Botón Clasificar presionado')
-        item, ok = QtWidgets.QInputDialog.getText(QtWidgets.QWidget(), 'Clasificar', 'Ingrese el dato a clasificar\nFormato: atributo1, atributo2')
+        item, ok = QtWidgets.QInputDialog.getText(QtWidgets.QWidget(), 'Clasificar', 'Ingrese el dato a clasificar\nUse "." como separador decimal y "," como separador de campo\nEjemplo: 5.0, 3.4')
         if ok:
             item.replace(' ', '')
             data = item.split(',')
