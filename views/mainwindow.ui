@@ -152,6 +152,13 @@
          <widget class="QLineEdit" name="testPerEdit"/>
         </item>
         <item>
+         <widget class="QLabel" name="label_3">
+          <property name="text">
+           <string>(obligatorio)</string>
+          </property>
+         </widget>
+        </item>
+        <item>
          <spacer name="horizontalSpacer_2">
           <property name="orientation">
            <enum>Qt::Horizontal</enum>
@@ -299,6 +306,13 @@
         </item>
         <item>
          <widget class="QLineEdit" name="thresholdEdit"/>
+        </item>
+        <item>
+         <widget class="QLabel" name="label_4">
+          <property name="text">
+           <string>(obligatorio)</string>
+          </property>
+         </widget>
         </item>
         <item>
          <spacer name="horizontalSpacer_5">
