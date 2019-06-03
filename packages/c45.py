@@ -103,11 +103,7 @@ def leafNode(cj, tree, data, classcolumn):
     # Calcular y asignar la confianza
     tree.cargo.confidence = [tree.cargo.supportCount, data.shape[0]]
     return False
-'''
-def createBranch(valueAg):
-    # To Do    
-    return False
-'''
+
 def decisionNode(tree, attribute, value):
     tree.cargo = bt.Cargo()
     # Indicar que es un nodo de decisión
@@ -145,9 +141,6 @@ def decisionTree(data, attributes, classes, classcolumn, tree, threshold, gainFu
     if sameClassC(data, classcolumn):
         leafNode(cj, tree, data, classcolumn)
         return tree
-    # Deshabilitamos esta parte ya que nunca se remueven atributos de la lista
-    # elif attributes.length() == 0:
-    #    leafNode(cj)
     else:
         # El conjunto no es puro
         p0 = impurityEval1(data, classcolumn)
@@ -159,7 +152,6 @@ def decisionTree(data, attributes, classes, classcolumn, tree, threshold, gainFu
             p = gainRatioCalc(p, data)
         a, val, gain = selectAg(p, gainFunc)
         if gain <= threshold:
-            # cj = frequentClass(data, classes, classcolumn)
             leafNode(cj, tree, data, classcolumn)
             return tree
         else:

@@ -1,6 +1,5 @@
 from os import path
 # Modelo del patrón MVC generado para el manejo del archivo de datos
-# Solamente se aceptan archivos CSV
 class Model:
     def __init__(self):
         # Constructor del modelo, pone el nombre del archivo en nulo
@@ -29,7 +28,7 @@ class Model:
             return False
     
     def isCsv(self, fileName):
-        # Retorna verdadero si el archivo es un CSV
+        # Retorna verdadero si el archivo es un CSV o TXT
         _, ext = path.splitext(fileName)
         if ext.lower() == '.csv' or ext.lower() == '.txt':
             return True

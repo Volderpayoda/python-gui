@@ -22,9 +22,6 @@ def plotSolution(problem, tree):
     plt.ylabel(problem.attributes[1])
     # Activar la leyenda del gráfico
     plt.legend()
-    # Desplazar el gráfico 
-    # mngr = plt.get_current_fig_manager()
-    # mngr.window.setGeometry(50,100,640, 545)
     # Retornar el gráfico
     return plt
 
