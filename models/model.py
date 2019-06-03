@@ -13,9 +13,9 @@ class Model:
         self.accuracy = None
 
     def isValid(self, fileName):
-        if not isValidFile(fileName):
+        if not self.isValidFile(fileName):
             return False, "El archivo seleccionado no existe o no puede abrirse"
-        if not isCsv(fileName):
+        if not self.isCsv(fileName):
             return False, "El archivo seleccionado no es un CSV"        
         return True, ""
 
@@ -31,7 +31,7 @@ class Model:
     def isCsv(self, fileName):
         # Retorna verdadero si el archivo es un CSV
         _, ext = path.splitext(fileName)
-        if ext.lower() == '.csv':
+        if ext.lower() == '.csv' or ext.lower() == '.txt':
             return True
         return False
     
