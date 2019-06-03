@@ -62,7 +62,7 @@ class MainWindowUIClass(Ui_MainWindow):
             self.warningBox('El archivo seleccionado no existe o no se puede acceder.')
             return 
         if not self.model.isCsv(fileName):
-            self.warningBox('El archivo seleccionado no es de tipo CSV.')
+            self.warningBox('El archivo seleccionado debe ser de tipo CSV o TXT.')
             return
         try:
             problem = import_csv(path = fileName, sep = self.separator, lineterminator = self.lineTerminator, testPer = self.testPer)
