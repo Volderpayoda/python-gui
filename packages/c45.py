@@ -159,9 +159,7 @@ def decisionTree(data, attributes, classes, classcolumn, tree, threshold, gainFu
             decisionNode(tree, a, val)
             data1, data2 = partitionD(data, a, val)
             if data1.shape[0] != 0:
-                # createBranch(a)
                 tree.left = decisionTree(data1, attributes, classes, classcolumn, bt.BinaryTree(), threshold, gainFunc)
             if data2.shape[0] != 0:
-                # createBranch(a)
                 tree.right = decisionTree(data2, attributes, classes, classcolumn, bt.BinaryTree(), threshold, gainFunc)
     return tree
