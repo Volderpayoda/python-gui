@@ -37,6 +37,9 @@ class Model:
     def isValidProblem(self, problem):
         return problem.attributes.size == 2
 
+    def isEmpty(self, problem):
+        return problem.data.shape[0] == 0
+    
     # Setters y getters
     def setFileName(self, fileName):
         self.fileName = fileName
