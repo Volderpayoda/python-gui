@@ -72,6 +72,9 @@ class MainWindowUIClass(Ui_MainWindow):
         if not self.model.isValidProblem(problem):
             self.warningBox('El conjunto de datos seleccionado debe contener solo 2 atributos.')
             return
+        if self.model.isEmpty(problem):
+            self.warningBox('El conjunto de datos seleccionado no puede estar vacío.')
+            return
         self.debugPrint('Archivo seleccionado: {0}'.format(fileName))
         self.trainingLineEdit.setText(fileName)
         self.model.setFileName(fileName)
