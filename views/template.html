@@ -19,6 +19,8 @@
 
 	.node text {
 	  font: 12px sans-serif;
+	  font-weight: bolder;
+	  text-transform: uppercase;
 	}
 
 	.link {
@@ -94,9 +96,9 @@ function update(source) {
 	  .style("fill", function(d) { return d._children ? "lightsteelblue" : "#fff"; });
 
   nodeEnter.append("text")
-	  .attr("x", function(d) { return d.children || d._children ? -13 : 13; })
+	  .attr("x", function(d) { return d.children || d._children ? 13 : -13; })
 	  .attr("dy", ".35em")
-	  .attr("text-anchor", function(d) { return d.children || d._children ? "end" : "start"; })
+	  .attr("text-anchor", function(d) { return d.children || d._children ? "start" : "end"; })
 	  .text(function(d) { return d.name; })
 	  .style("fill-opacity", 1e-6);
 
