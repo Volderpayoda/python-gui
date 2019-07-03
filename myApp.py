@@ -51,7 +51,7 @@ class MainWindowUIClass(Ui_MainWindow):
         self.disableItems([self.discardButton, self.fileBrowserFrame, self.thresholdFrame, self.buildTreeFrame, self.treeOptionsFrame])
         self.gainRadioButton.setChecked(True)
         self.thresholdEdit.setToolTip('Debe ser mayor o igual a cero\nUse "." como separador decimal\nEjemplo: 0.001')
-        self.testPerEdit.setToolTip('Debe ser mayor a 0 y menor que 1\nUse "." como separador decimal\nEjemplo: 0.1')
+        self.testPerEdit.setToolTip('Debe ser menor que 1\nUse "." como separador decimal\nEjemplo: 0.1\n(No se pueden tomar todos los elementos del dataset para las pruebas)')
         self.classificationButton.setToolTip('Ingrese dos atributos para la predicción')
 
     def setFile(self, fileName):
@@ -73,7 +73,7 @@ class MainWindowUIClass(Ui_MainWindow):
             self.warningBox('El conjunto de datos seleccionado debe contener solo 2 atributos.')
             return
         if self.model.isEmpty(problem):
-            self.warningBox('El conjunto de datos seleccionado no puede estar vacío.')
+            self.warningBox('El conjunto de datos seleccionado está vacío o todos los datos se tomaron para las pruebas (seleccione un porcentaje menor).')
             return
         self.debugPrint('Archivo seleccionado: {0}'.format(fileName))
         self.trainingLineEdit.setText(fileName)
@@ -93,8 +93,8 @@ class MainWindowUIClass(Ui_MainWindow):
             self.warningBox('Debe indicar un porcentaje de elementos que serán usados para la prueba')
             return
         self.testPer = float(self.testPerEdit.text().replace(',', '.'))
-        if self.testPer <= 0 or self.testPer >= 1:
-            self.warningBox('El porcentaje de elementos para prueba debe ser un valor comprendido mayor que 0 y menor que 1')
+        if self.testPer < 0 or self.testPer >= 1:
+            self.warningBox('El porcentaje de elementos para prueba debe ser un valor menor que 1')
             return
         # Asigna los valores para el separador y el fin de línea 
         if self.separatorEdit.text() == '':
@@ -159,12 +159,17 @@ class MainWindowUIClass(Ui_MainWindow):
     
     def treeFinishedSlot(self):
         self.debugPrint('Proceso de construcción finalizado')
-        self.debugPrint('Iniciando cálculo de precisión')
-        classifier = cf.Classifier(self.model.problem.attributes)
-        worker = Worker(classifier.classifyDataFrame, self.model.tree, self.model.problem.testData)
-        worker.signals.result.connect(self.accuracyResultSlot)
-        worker.signals.result.connect(self.accuracyFinishedSlot)
-        self.threadPool.start(worker)
+        nTest = self.model.problem.testData.shape[0]
+        if nTest != 0: 
+            self.debugPrint('Iniciando cálculo de precisión')
+            classifier = cf.Classifier(self.model.problem.attributes)
+            worker = Worker(classifier.classifyDataFrame, self.model.tree, self.model.problem.testData)
+            worker.signals.result.connect(self.accuracyResultSlot)
+            worker.signals.result.connect(self.accuracyFinishedSlot)
+            self.threadPool.start(worker)
+        else:
+            self.infoBox('Se ha terminado la construcción del modelo.')
+            self.enableItems([self.treeOptionsFrame, self.centralwidget])            
 
     def accuracyResultSlot(self, acc):
         self.model.accuracy = acc
@@ -191,7 +196,11 @@ class MainWindowUIClass(Ui_MainWindow):
                 return
             classifier = cf.Classifier(self.model.problem.attributes)
             prediction = classifier.classifyData(self.model.tree, data)
-            self.infoBox('Los valores introducidos pertenecen a la clase: ' + prediction + '\nPrecisión de la estimación: ' + str(self.model.accuracy * 100) + '%')
+            if self.model.accuracy == None:
+                self.infoBox('Los valores introducidos pertenecen a la clase: ' + prediction)
+            else:
+                self.infoBox('Los valores introducidos pertenecen a la clase: ' + prediction + '\nPrecisión de la estimación: ' + str(self.model.accuracy * 100) + '%')
+
 
     def plotDataSlot(self):
         plt = plotSolution(self.model.problem, self.model.tree)
