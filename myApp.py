@@ -150,15 +150,13 @@ class MainWindowUIClass(Ui_MainWindow):
         worker = Worker(decisionTree, problem.data, problem.attributes, problem.classes, problem.classcolumn, bt.BinaryTree(), threshold, gainFunc)
         worker.signals.result.connect(self.treeResultSlot)
         worker.signals.finished.connect(self.treeFinishedSlot)
+        worker.signals.error.connect(self.treeErrorSlot)
         self.disableItems([self.centralwidget])
         self.threadPool.start(worker)
         # Habilitar opciones del árbol
 
     def treeResultSlot(self, tree):
         self.model.tree = tree
-    
-    def treeFinishedSlot(self):
-        self.debugPrint('Proceso de construcción finalizado')
         nTest = self.model.problem.testData.shape[0]
         if nTest != 0: 
             self.debugPrint('Iniciando cálculo de precisión')
@@ -169,8 +167,16 @@ class MainWindowUIClass(Ui_MainWindow):
             self.threadPool.start(worker)
         else:
             self.infoBox('Se ha terminado la construcción del modelo.')
-            self.enableItems([self.treeOptionsFrame, self.centralwidget])            
+            self.enableItems([self.treeOptionsFrame, self.centralwidget])  
+    
+    def treeFinishedSlot(self):
+        self.debugPrint('Proceso de construcción finalizado')          
 
+    def treeErrorSlot(self):
+        self.model.tree = None
+        self.warningBox('Desbordamiento, intente con un umbral más alto.')
+        self.enableItems([self.centralwidget])
+    
     def accuracyResultSlot(self, acc):
         self.model.accuracy = acc
 
