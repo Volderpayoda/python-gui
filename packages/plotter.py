@@ -39,14 +39,14 @@ def adjustPoints(problem):
     dataAdjust = problem.data.copy()
     axx, axy = getAxis(problem)
     # Calcular la cantidad de decimales en X
-    decx = problem.data[axx].apply(lambda x: len(str(x).split('.')[1]))
+    decx = problem.data[axx].apply(lambda x: len(str(float(x)).split('.')[1]))
     decx = decx.max()
     # Calcular la cantidad de decimales en Y
-    decy = problem.data[axy].apply(lambda x: len(str(x).split('.')[1]))
+    decy = problem.data[axy].apply(lambda x: len(str(float(x)).split('.')[1]))
     decy = decy.max()
     # Calcular valores de desplazamiento
-    despx = 7.0 * (10.0 ** (-(decx + 1)))
-    despy = 7.0 * (10.0 ** (-(decy + 1)))
+    despx = 3.0 * (10.0 ** (-(decx + 1)))
+    despy = 3.0 * (10.0 ** (-(decy + 1)))
     dataAdjust[axx] = problem.data[axx].apply(lambda x: x - despx)
     dataAdjust[axy] = problem.data[axy].apply(lambda x: x - despy)
     return dataAdjust
