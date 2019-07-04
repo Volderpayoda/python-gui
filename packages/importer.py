@@ -18,6 +18,13 @@ def import_csv(path, sep = ',', lineterminator = '\n', testPer = 0.2):
     # Eliminar la columna de clase de la lista de atributos
     attributes = attributes.drop(labels = [attributes[length]])
 
+    # Controlar para caracteres no válidos
+    try:
+        for a in attributes:
+            data[a].apply(lambda x: float(x))
+    except: 
+        raise Exception('El conjunto contiene datos no válidos.')
+
     # Separar los datos en el conjunto de entrenamiento y el conjunto de prueba
     testData = data.sample(frac = testPer)
     data = data.drop(testData.index)
