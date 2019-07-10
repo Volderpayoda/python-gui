@@ -30,7 +30,7 @@ class Cargo:
         if self.type == 'decision':
             return str(self.value) + '|| Valor corte: ' + str(round(self.limit, 5))
         if self.type == 'leaf':
-            return str(self.value) + '|| SupCount: ' + str(self.confidence[0]) + '|| Confidence : ' + str(self.confidence[0]) + '/' + str(self.confidence[1])
+            return str(self.value) + '|| Supp. Count: ' + str(self.confidence[0]) + '|| Confidence : ' + str(self.confidence[0]) + '/' + str(self.confidence[1])
 
 
 class BinaryTree:
