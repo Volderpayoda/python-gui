@@ -67,7 +67,7 @@ class MainWindowUIClass(Ui_MainWindow):
         try:
             problem = import_csv(path = fileName, sep = self.separator, lineterminator = self.lineTerminator, testPer = self.testPer)
         except:
-            self.warningBox('El archivo seleccionado no existe o no se puede acceder.')
+            self.warningBox('El archivo seleccionado no existe, no se puede acceder, o contiene caracteres no válidos.')
             return
         if not self.model.isValidProblem(problem):
             self.warningBox('El conjunto de datos seleccionado debe contener solo 2 atributos.')
@@ -203,9 +203,9 @@ class MainWindowUIClass(Ui_MainWindow):
             classifier = cf.Classifier(self.model.problem.attributes)
             prediction = classifier.classifyData(self.model.tree, data)
             if self.model.accuracy == None:
-                self.infoBox('Los valores introducidos pertenecen a la clase: ' + prediction)
+                self.infoBox('Los valores introducidos pertenecen a la clase: ' + str(prediction))
             else:
-                self.infoBox('Los valores introducidos pertenecen a la clase: ' + prediction + '\nPrecisión de la estimación: ' + str(self.model.accuracy * 100) + '%')
+                self.infoBox('Los valores introducidos pertenecen a la clase: ' + str(prediction) + '\nPrecisión de la estimación: ' + str(self.model.accuracy * 100) + '%')
 
 
     def plotDataSlot(self):
